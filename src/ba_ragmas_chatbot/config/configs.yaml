@@ -1,5 +1,5 @@
 chatbot_token:
-  token: {your_token}
+  token: 8247615327:AAH5IsIe56Hy6yQtVz4UaWGwAy0D3cR47zI
 
 agents:
   llm: ollama/llama3.1:8b-instruct-q8_0

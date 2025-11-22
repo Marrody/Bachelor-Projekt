@@ -1,0 +1,967 @@
+2025-11-11 21:44:27,247 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 110, in _get_url
+    resp = self.client.request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\primp\__init__.py", line 96, in request
+    return super().request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: error sending request for url (https://lite.duckduckgo.com/lite/): operation timed out
+
+Caused by:
+    operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 673, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1233, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1229, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 171, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 196, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1315, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 843, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 159, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 495, in confirm
+    response = str(bot.crew().kickoff(inputs=inputs))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 698, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 812, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 918, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 377, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 441, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 447, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 543, in _execute_without_timeout
+    return self.agent_executor.invoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 149, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 212, in _invoke_loop
+    tool_result = execute_tool_and_check_finality(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\utilities\tool_utils.py", line 85, in execute_tool_and_check_finality
+    tool_result = tool_usage.use(tool_calling, agent_action.text)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\tool_usage.py", line 142, in use
+    return f"{self._use(tool_string=tool_string, tool=tool, calling=calling)}"
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\tool_usage.py", line 246, in _use
+    result = tool.invoke(input=arguments)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\structured_tool.py", line 274, in invoke
+    result = self.func(**parsed_args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 23, in _run
+    is_true, source = self.fact_check_with_duckduckgo(argument)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 31, in fact_check_with_duckduckgo
+    search_result = self.search_duckduckgo(fact)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 40, in search_duckduckgo
+    results = websearch.run(query=query)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_api_haystack\duckduckgoapi.py", line 180, in run
+    results = self.ddgs.text(**payload)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 179, in text
+    results = self._text_lite(keywords, region, timelimit, max_results)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 290, in _text_lite
+    resp_content = self._get_url("POST", "https://lite.duckduckgo.com/lite/", data=payload).content
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 122, in _get_url
+    if "time" in str(ex).lower():
+                 ^^^^^^^
+KeyboardInterrupt
+2025-11-16 17:03:29,317 - telegram.ext.Updater - ERROR - Error while calling `get_updates` one more time to mark all fetched updates as read: %s. Suppressing error to ensure graceful shutdown. When polling for updates is restarted, updates may be fetched again. Please adjust timeouts via `ApplicationBuilder` or the parameter `get_updates_request` of `Bot`.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 136, in handle_async_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 400, in _get_updates_cleanup
+    await self.bot.get_updates(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4780, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 305, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 303, in do_request
+    raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
+telegram.error.NetworkError: httpx.ReadError: 
+2025-11-16 17:03:29,444 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 673, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1233, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1229, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 171, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 196, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1315, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 843, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 159, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 678, in confirm
+    result = bot.crew().kickoff(inputs=inputs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 698, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 812, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 918, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 377, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 441, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 447, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 543, in _execute_without_timeout
+    return self.agent_executor.invoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 149, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 189, in _invoke_loop
+    answer = get_llm_response(
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\utilities\agent_utils.py", line 246, in get_llm_response
+    answer = llm.call(
+             ^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 1024, in call
+    return self._handle_non_streaming_response(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 799, in _handle_non_streaming_response
+    response = litellm.completion(**params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 1268, in wrapper
+    update_response_metadata(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 1676, in update_response_metadata
+    metadata.set_hidden_params(logging_obj=logging_obj, model=model, kwargs=kwargs)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\litellm_core_utils\llm_response_utils\response_metadata.py", line 47, in set_hidden_params
+    "response_cost": logging_obj._response_cost_calculator(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\litellm_core_utils\litellm_logging.py", line 1221, in _response_cost_calculator
+    response_cost = litellm.response_cost_calculator(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\cost_calculator.py", line 1046, in response_cost_calculator
+    response_cost = completion_cost(
+                    ^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\cost_calculator.py", line 915, in completion_cost
+    ) = cost_per_token(
+        ^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\cost_calculator.py", line 351, in cost_per_token
+    model_info = _cached_get_model_info_helper(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 4561, in _cached_get_model_info_helper
+    return _get_model_info_helper(model=model, custom_llm_provider=custom_llm_provider)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 4655, in _get_model_info_helper
+    return litellm.OllamaConfig().get_model_info(model)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\ollama\completion\transformation.py", line 213, in get_model_info
+    response = litellm.module_level_client.post(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\custom_httpx\http_handler.py", line 761, in post
+    response = self.client.send(req, stream=stream)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 208, in connect_tcp
+    sock = socket.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 844, in create_connection
+    exceptions.clear()  # raise only the last error
+    ^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+2025-11-16 17:37:13,466 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 673, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1233, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1229, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 171, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 196, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1315, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 843, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 159, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 797, in confirm
+    result = bot.crew().kickoff(inputs=inputs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 698, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 812, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 918, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 377, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 441, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 447, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 543, in _execute_without_timeout
+    return self.agent_executor.invoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 149, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 212, in _invoke_loop
+    tool_result = execute_tool_and_check_finality(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\utilities\tool_utils.py", line 85, in execute_tool_and_check_finality
+    tool_result = tool_usage.use(tool_calling, agent_action.text)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\tool_usage.py", line 142, in use
+    return f"{self._use(tool_string=tool_string, tool=tool, calling=calling)}"
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\tool_usage.py", line 251, in _use
+    result = tool.invoke(input=arguments)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\structured_tool.py", line 274, in invoke
+    result = self.func(**parsed_args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 23, in _run
+    is_true, source = self.fact_check_with_duckduckgo(argument)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 31, in fact_check_with_duckduckgo
+    search_result = self.search_duckduckgo(fact)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 45, in search_duckduckgo
+    return self.check_if_true(documents, links, query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 49, in check_if_true
+    output = ollama.generate(
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\ollama\_client.py", line 256, in generate
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\ollama\_client.py", line 189, in _request
+    return cls(**self._request_raw(*args, **kwargs).json())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\ollama\_client.py", line 129, in _request_raw
+    r = self._client.request(*args, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 136, in handle_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+2025-11-19 22:50:27,264 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 136, in handle_async_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4780, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 305, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 303, in do_request
+    raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
+telegram.error.NetworkError: httpx.ReadError: 
+2025-11-20 00:18:07,927 - telegram.ext.Updater - ERROR - Error while calling `get_updates` one more time to mark all fetched updates as read: %s. Suppressing error to ensure graceful shutdown. When polling for updates is restarted, updates may be fetched again. Please adjust timeouts via `ApplicationBuilder` or the parameter `get_updates_request` of `Bot`.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 136, in handle_async_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 400, in _get_updates_cleanup
+    await self.bot.get_updates(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4780, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 305, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 303, in do_request
+    raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
+telegram.error.NetworkError: httpx.ReadError: 
+2025-11-20 00:18:07,932 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_api_haystack\duckduckgoapi.py", line 180, in run
+    results = self.ddgs.text(**payload)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 185, in text
+    raise DuckDuckGoSearchException(err)
+duckduckgo_search.exceptions.DuckDuckGoSearchException: https://html.duckduckgo.com/html RuntimeError: error sending request for url (https://html.duckduckgo.com/html): operation timed out
+
+Caused by:
+    operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\tool_usage.py", line 246, in _use
+    result = tool.invoke(input=arguments)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\structured_tool.py", line 274, in invoke
+    result = self.func(**parsed_args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 23, in _run
+    is_true, source = self.fact_check_with_duckduckgo(argument)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 31, in fact_check_with_duckduckgo
+    search_result = self.search_duckduckgo(fact)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 40, in search_duckduckgo
+    results = websearch.run(query=query)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_api_haystack\duckduckgoapi.py", line 182, in run
+    raise DuckduckgoApiWebSearchError(f"An error occurred while querying {self.__class__.__name__}."
+duckduckgo_api_haystack.duckduckgoapi.DuckduckgoApiWebSearchError: An error occurred while querying DuckduckgoApiWebSearch.Error: https://html.duckduckgo.com/html RuntimeError: error sending request for url (https://html.duckduckgo.com/html): operation timed out
+
+Caused by:
+    operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 673, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1233, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1229, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 171, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 196, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1315, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 843, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 159, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 797, in confirm
+    result = bot.crew().kickoff(inputs=inputs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 698, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 812, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 918, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 377, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 441, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 447, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 543, in _execute_without_timeout
+    return self.agent_executor.invoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 149, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 212, in _invoke_loop
+    tool_result = execute_tool_and_check_finality(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\utilities\tool_utils.py", line 85, in execute_tool_and_check_finality
+    tool_result = tool_usage.use(tool_calling, agent_action.text)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\tool_usage.py", line 142, in use
+    return f"{self._use(tool_string=tool_string, tool=tool, calling=calling)}"
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\tool_usage.py", line 251, in _use
+    result = tool.invoke(input=arguments)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\tools\structured_tool.py", line 274, in invoke
+    result = self.func(**parsed_args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 23, in _run
+    is_true, source = self.fact_check_with_duckduckgo(argument)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 31, in fact_check_with_duckduckgo
+    search_result = self.search_duckduckgo(fact)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\tools\factcheck_tool.py", line 40, in search_duckduckgo
+    results = websearch.run(query=query)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_api_haystack\duckduckgoapi.py", line 180, in run
+    results = self.ddgs.text(**payload)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 179, in text
+    results = self._text_lite(keywords, region, timelimit, max_results)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 290, in _text_lite
+    resp_content = self._get_url("POST", "https://lite.duckduckgo.com/lite/", data=payload).content
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 108, in _get_url
+    self._sleep()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\duckduckgo_search\duckduckgo_search.py", line 94, in _sleep
+    sleep(delay)
+KeyboardInterrupt
+2025-11-20 01:53:58,453 - telegram.ext.Updater - ERROR - Error while calling `get_updates` one more time to mark all fetched updates as read: %s. Suppressing error to ensure graceful shutdown. When polling for updates is restarted, updates may be fetched again. Please adjust timeouts via `ApplicationBuilder` or the parameter `get_updates_request` of `Bot`.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 136, in handle_async_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 400, in _get_updates_cleanup
+    await self.bot.get_updates(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4780, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 305, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 303, in do_request
+    raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
+telegram.error.NetworkError: httpx.ReadError: 
+2025-11-20 01:53:58,460 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 673, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1233, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1229, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 171, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 196, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1315, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 843, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 159, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 940, in confirm_button
+    "If you want to keep a previous answer, just reply with 'no' at that step.\n\n"
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 698, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 812, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 918, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 377, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 441, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 447, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 543, in _execute_without_timeout
+    return self.agent_executor.invoke(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 149, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 189, in _invoke_loop
+    answer = get_llm_response(
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\utilities\agent_utils.py", line 246, in get_llm_response
+    answer = llm.call(
+             ^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 1024, in call
+    return self._handle_non_streaming_response(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 799, in _handle_non_streaming_response
+    response = litellm.completion(**params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 1205, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\main.py", line 3083, in completion
+    response = base_llm_http_handler.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\custom_httpx\llm_http_handler.py", line 470, in completion
+    response = self._make_common_sync_call(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\custom_httpx\llm_http_handler.py", line 174, in _make_common_sync_call
+    response = sync_httpx_client.post(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\custom_httpx\http_handler.py", line 761, in post
+    response = self.client.send(req, stream=stream)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 136, in handle_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_sync\http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+2025-11-20 01:55:57,865 - telegram bot - ERROR - website: An exception occurred: 1 validation error for WebsiteSearchTool
+  Value error, The CHROMA_OPENAI_API_KEY environment variable is not set. [type=value_error, input_value={'config': {'llm': {'prov...p://localhost:11434'}}}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
+2025-11-20 01:56:36,112 - telegram bot - ERROR - website: An exception occurred: 1 validation error for WebsiteSearchTool
+  Value error, The CHROMA_OPENAI_API_KEY environment variable is not set. [type=value_error, input_value={'config': {'llm': {'prov...p://localhost:11434'}}}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/value_error
