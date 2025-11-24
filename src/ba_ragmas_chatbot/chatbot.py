@@ -12,8 +12,6 @@ from telegram import (
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    KeyboardButton,
-    ReplyKeyboardMarkup,
 )
 from telegram.error import BadRequest
 from telegram.ext import (
@@ -30,28 +28,12 @@ from telegram.ext import (
 from langchain_ollama import OllamaLLM
 from src.ba_ragmas_chatbot import logger_config
 from src.ba_ragmas_chatbot.crew import BaRagmasChatbot
-from ba_ragmas_chatbot.states import (
-    S,
-    first_state,
-)
+from ba_ragmas_chatbot.states import S
 
 
 class TelegramBot:
-    (
-        CHAT,
-        TOPIC,
-        TASK,
-        TOPIC_OR_TASK,
-        WEBSITE,
-        DOCUMENT,
-        LENGTH,
-        LANGUAGE_LEVEL,
-        INFORMATION,
-        LANGUAGE,
-        TONE,
-        CONFIRM,
-        ADDITIONAL,
-    ) = range(13)
+
+    CHAT = -1
 
     VALID_MIME_TYPES = [
         "application/pdf",
@@ -74,9 +56,8 @@ class TelegramBot:
     tools = []
     ai = OllamaLLM(model=llm_name)
     logger = logger_config.get_logger("telegram bot")
-    retry = False
 
-    # Utility: clear DB
+    # Utility – clear db
 
     def clear_db(self):
         """Deletes all database files related to ChromaDB."""
@@ -85,55 +66,108 @@ class TelegramBot:
             shutil.rmtree(db_folder)
         os.makedirs(db_folder)
 
-    # Helper: Keyboards
+    # Helper – navigation + keyboards
+
+    def build_navigation(self) -> InlineKeyboardMarkup:
+
+        return [
+            InlineKeyboardButton("🔁 Restart", callback_data="nav_restart"),
+            InlineKeyboardButton("⬅️ Back", callback_data="nav_back"),
+        ]
 
     def build_topic_or_task_keyboard(self) -> InlineKeyboardMarkup:
+
         keyboard = [
             [
-                InlineKeyboardButton("📝 Topic", callback_data="topic"),
-                InlineKeyboardButton("🎯 Task", callback_data="task"),
-            ]
+                InlineKeyboardButton("📝 Topic", callback_data="topic_or_task:topic"),
+                InlineKeyboardButton("🎯 Task", callback_data="topic_or_task:task"),
+            ],
+            self.build_navigation(),
         ]
         return InlineKeyboardMarkup(keyboard)
 
     def build_length_keyboard(self) -> InlineKeyboardMarkup:
         keyboard = [
             [
-                InlineKeyboardButton("📃 Short", callback_data="short"),
-                InlineKeyboardButton("📖 Medium", callback_data="medium"),
-                InlineKeyboardButton("📚 Long", callback_data="long"),
-            ]
+                InlineKeyboardButton("📃 Short", callback_data="length:short"),
+                InlineKeyboardButton("📖 Medium", callback_data="length:medium"),
+                InlineKeyboardButton("📚 Long", callback_data="length:long"),
+            ],
+            self.build_navigation(),
         ]
         return InlineKeyboardMarkup(keyboard)
 
     def build_level_keyboard(self) -> InlineKeyboardMarkup:
         keyboard = [
             [
-                InlineKeyboardButton("👶 Beginner", callback_data="beginner"),
-                InlineKeyboardButton("📘 Intermediate", callback_data="intermediate"),
-                InlineKeyboardButton("🎓 Advanced", callback_data="advanced"),
-            ]
+                InlineKeyboardButton("👶 Beginner", callback_data="level:beginner"),
+                InlineKeyboardButton(
+                    "📘 Intermediate", callback_data="level:intermediate"
+                ),
+                InlineKeyboardButton("🎓 Advanced", callback_data="level:advanced"),
+            ],
+            self.build_navigation(),
         ]
         return InlineKeyboardMarkup(keyboard)
 
     def build_info_keyboard(self) -> InlineKeyboardMarkup:
-
         keyboard = [
             [
-                InlineKeyboardButton("💧 Low", callback_data="low"),
-                InlineKeyboardButton("🌊 Medium", callback_data="medium_info"),
-                InlineKeyboardButton("🌊🌊 High", callback_data="high"),
-            ]
+                InlineKeyboardButton("💧 Low", callback_data="info:low"),
+                InlineKeyboardButton("🌊 Medium", callback_data="info:medium"),
+                InlineKeyboardButton("🌊🌊 High", callback_data="info:high"),
+            ],
+            self.build_navigation(),
         ]
         return InlineKeyboardMarkup(keyboard)
 
     def build_tone_keyboard(self) -> InlineKeyboardMarkup:
         keyboard = [
             [
-                InlineKeyboardButton("🏛️ Professional", callback_data="professional"),
-                InlineKeyboardButton("😎 Casual", callback_data="casual"),
-                InlineKeyboardButton("😄 Friendly", callback_data="friendly"),
+                InlineKeyboardButton(
+                    "🏛️ Professional", callback_data="tone:professional"
+                ),
+                InlineKeyboardButton("😎 Casual", callback_data="tone:casual"),
+                InlineKeyboardButton("😄 Friendly", callback_data="tone:friendly"),
+            ],
+            self.build_navigation(),
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    def build_confirm_keyboard(self) -> InlineKeyboardMarkup:
+        keyboard = [
+            [InlineKeyboardButton("✅ Confirm", callback_data="confirm:confirm")],
+            self.build_navigation(),
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    def build_start_configuration_keyboard(self) -> InlineKeyboardMarkup:
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "▶️ Start configuration", callback_data="start_config"
+                )
             ]
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    def build_navigation_keyboard(self) -> InlineKeyboardMarkup:
+        keyboard = [
+            self.build_navigation(),
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    def build_website_keyboard(self) -> InlineKeyboardMarkup:
+        keyboard = [
+            [InlineKeyboardButton("🚫 No website", callback_data="website:no")],
+            self.build_navigation(),
+        ]
+        return InlineKeyboardMarkup(keyboard)
+
+    def build_document_keyboard(self) -> InlineKeyboardMarkup:
+        keyboard = [
+            [InlineKeyboardButton("🚫 No document", callback_data="document:no")],
+            self.build_navigation(),
         ]
         return InlineKeyboardMarkup(keyboard)
 
@@ -141,729 +175,151 @@ class TelegramBot:
         keyboard = [
             [
                 InlineKeyboardButton(
-                    "🚫 No additional info", callback_data="no_additional"
+                    "🚫 No additional info", callback_data="additional:no"
                 )
             ],
-            [InlineKeyboardButton("➕ Add details", callback_data="add_additional")],
+            self.build_navigation(),
         ]
         return InlineKeyboardMarkup(keyboard)
 
-    def build_website_keyboard(self) -> InlineKeyboardMarkup:
-        keyboard = [
-            [InlineKeyboardButton("🚫 No website", callback_data="no_website")],
-        ]
-        return InlineKeyboardMarkup(keyboard)
+    # Helper
 
-    def build_document_keyboard(self) -> InlineKeyboardMarkup:
-        keyboard = [
-            [InlineKeyboardButton("🚫 No document", callback_data="no_document_btn")],
-        ]
-        return InlineKeyboardMarkup(keyboard)
+    def reset_wizard_data(self, context: CallbackContext) -> None:
+        """resets all wizard data."""
+        user_data = context.user_data
+        for key in [
+            "topic",
+            "length",
+            "language_level",
+            "information",
+            "language",
+            "tone",
+            "additional_information",
+            "state_stack",
+            "current_state",
+        ]:
+            user_data.pop(key, None)
+        user_data["state_stack"] = []
+        user_data["current_state"] = int(S.TOPIC_OR_TASK)
+        user_data["history"] = []
+        self.tools.clear()
+        self.logger.info("Wizard data reset (restart).")
 
-    def build_confirm_keyboard(self) -> InlineKeyboardMarkup:
-        keyboard = [
-            [
-                InlineKeyboardButton("✅ Confirm", callback_data="confirm"),
-                InlineKeyboardButton("🔁 Restart", callback_data="restart"),
-            ]
-        ]
-        return InlineKeyboardMarkup(keyboard)
+    def push_state(self, context: CallbackContext, from_state: S) -> None:
+        """memorize prior state"""
+        stack = context.user_data.setdefault("state_stack", [])
+        stack.append(int(from_state))
 
-    def build_start_keyboard(self) -> ReplyKeyboardMarkup:
-        keyboard = [
-            [KeyboardButton("/start_configuration")],
-            [KeyboardButton("/help")],
-        ]
-        return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+    def clear_state_data(self, context: CallbackContext, state: S) -> None:
+        """deletes state data"""
+        user_data = context.user_data
+        if state in (S.TOPIC, S.TASK):
+            user_data.pop("topic", None)
+        elif state == S.LENGTH:
+            user_data.pop("length", None)
+        elif state == S.LEVEL:
+            user_data.pop("language_level", None)
+        elif state == S.INFO:
+            user_data.pop("information", None)
+        elif state == S.LANGUAGE:
+            user_data.pop("language", None)
+        elif state == S.TONE:
+            user_data.pop("tone", None)
+        elif state == S.ADDITIONAL:
+            user_data.pop("additional_information", None)
 
-    # Chat / Commands
+    async def ask_state_question(
+        self, update: Update, context: CallbackContext, state: S
+    ) -> None:
+        """state-handler of the wizard"""
+        message = update.effective_message
 
-    async def chat(self, update: Update, context: CallbackContext):
-        """Free LLM chat."""
-        response = ""
-        try:
-            self.logger.debug(
-                f"chat: Function successfully called with message {str(update.message.text)}"
-            )
-            context.user_data["history"] = context.user_data.get("history", []) + [
-                update.message.text
-            ]
-            history = "\n".join(context.user_data["history"])
-            response = str(self.ai.invoke(history))
-            await update.message.reply_html(response)
-            self.logger.debug(f"chat: Query successfully answered with {str(response)}")
-            context.user_data["history"].append(str(response))
-            return self.CHAT
-
-        except BadRequest as b:
-            if b.message == "Message is too long":
-                responses = response.split("\n\n")
-                self.logger.warning(
-                    "chat: Message is too long, split up into small packets by double line."
-                )
-                for response in responses:
-                    await update.message.reply_text(response)
-            return self.CHAT
-
-        except Exception as e:
-            await update.message.reply_text(f"chat: An error occurred: {str(e)}")
-            return self.CHAT
-
-    async def clear(self, update: Update, context: CallbackContext):
-        """Clears the conversation and user history, and returns to chat."""
-        try:
-            context.user_data.clear()
-            context.user_data["history"] = []
-            self.tools.clear()
-            self.logger.info("clear: Conversation successfully cleared.")
-            await update.message.reply_text(
-                "Conversation successfully cleared! "
-                "You can /start_configuration again or tap the buttons below.",
-                reply_markup=self.build_start_keyboard(),
-            )
-            return self.CHAT
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. To re-clear the conversation, please send /clear again."
-            )
-            self.logger.error(
-                f"clear: Tried to clear conversation, but an exception occurred: {str(e)}"
-            )
-            return self.CHAT
-
-    async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Send a message when the command /start is issued."""
-        try:
-            user = update.effective_user
-            self.logger.info(
-                f"start: Conversation successfully started with user {str(user.mention_html())}. "
-            )
-            response = (
-                f"Hi {user.mention_html()}! This is a chatbot for creating blog articles using RAG and MAS. ✍️🤖\n\n"
-                f"You can:\n"
-                f"• /start_configuration – start the blog article configuration wizard\n"
-                f"• /help – see an overview of all commands\n\n"
-            )
-            await update.message.reply_html(
-                response,
-                reply_markup=self.build_start_keyboard(),
-            )
-            context.user_data["history"] = []
-            self.logger.debug("start: Response message successfully sent.")
-            return self.CHAT
-
-        except Exception as e:
-            await update.message.reply_text(f"An error occurred: {str(e)}")
-            self.logger.error(
-                f"start: Tried to start conversation, but an exception occurred: {str(e)}"
-            )
-            return self.CHAT
-
-    async def start_configuration(
-        self, update: Update, context: ContextTypes.DEFAULT_TYPE
-    ):
-        """Starts the blog article configuration process (entry point)."""
-
-        try:
-            self.logger.debug(
-                "start_configuration: Blog article configuration started."
-            )
-
+        if state == S.TOPIC_OR_TASK:
             text = (
-                "Great, let's configure your blog article! ✍️\n\n"
-                "First: Do you already have a *topic* or rather a *task* the article should fulfil?"
+                "Let's configure your blog article! ✍️\n\n"
+                "First, do you already have a *topic* or rather a *task* "
+                "the article should fulfil?"
             )
-            await update.message.reply_text(
+            await message.reply_text(
                 text, reply_markup=self.build_topic_or_task_keyboard()
             )
 
-            return S.TOPIC_OR_TASK
-
-        except Exception as e:
-            self.logger.error(f"Error in start_configuration: {e}", exc_info=True)
-            await update.message.reply_text(
-                "An unexpected error occurred while starting the configuration."
+        elif state == S.TOPIC:
+            text = (
+                "Great, you've chosen *Topic*! 📝\n\n"
+                "What topic should the blog article be about?"
             )
-            return ConversationHandler.END
-
-    async def help(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        try:
-            await update.message.reply_text(
-                "Welcome to the RAG-MAS Blog Article Generator Bot! 📚\n\n"
-                "Commands:\n"
-                "• /start – Restart the conversation\n"
-                "• /start_configuration – Start the blog article configuration wizard\n"
-                "• /clear – Clear the conversation and user history\n"
-                "• /cancel – End the conversation\n\n"
-                "You can also use the buttons to navigate."
+            await message.reply_text(
+                text, reply_markup=self.build_navigation_keyboard()
             )
-            self.logger.debug("help: help sent.")
-            return self.CHAT
 
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. To get help, please send /help again."
-            )
-            self.logger.error(
-                f"help: Tried to respond with help, but an exception occurred: {str(e)}"
-            )
-            return self.CHAT
-
-    # Step: Topic or Task
-
-    async def topic_or_task_button(self, update: Update, context: CallbackContext):
-        """Handles the InlineKeyboard choice 'topic' vs 'task'."""
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-
-        self.logger.debug(f"topic_or_task_button: User chose {choice}")
-
-        base_text = (
-            "Do you want to configure the article based on a *topic* or a *task*?\n\n"
-            f"✅ Selected: {choice.capitalize()}"
-        )
-        await query.edit_message_text(base_text)
-
-        if choice == "topic":
-            response = (
-                "Okay, topic it is! 📝\n\nWhat topic should the blog article be about?"
-            )
-            await query.message.reply_text(response)
-            return self.TOPIC
-
-        if choice == "task":
-            response = (
-                "Okay, task it is! 🎯\n\nWhat task should the blog article fulfil? "
+        elif state == S.TASK:
+            text = (
+                "Great, you've chosen *Task*! 🎯\n\n"
+                "What task should the blog article fulfil? "
                 "Please describe it in a short sentence."
             )
-            await query.message.reply_text(response)
-            return self.TASK
-
-        await query.message.reply_text(
-            "Please choose whether you have a *topic* or a *task*."
-        )
-        return self.TOPIC_OR_TASK
-
-    async def topic_or_task(self, update: Update, context: CallbackContext):
-        """Fallback: if user still types 'topic' or 'task' as text."""
-        try:
-            text = (update.message.text or "").strip().lower()
-            self.logger.debug(
-                f"topic_or_task (text): called with message {update.message.text}"
+            await message.reply_text(
+                text, reply_markup=self.build_navigation_keyboard()
             )
 
-            if text == "topic":
-                response = (
-                    "Okay, topic it is! 📝 What topic should the blog article be about?"
-                )
-                await update.message.reply_text(response)
-                return self.TOPIC
+        elif state == S.WEBSITE:
 
-            if text == "task":
-                response = (
-                    "Okay, task it is! 🎯 What task should the blog article fulfil?"
-                )
-                await update.message.reply_text(response)
-                return self.TASK
+            text = (
+                "Do you have a website with information that should be included?\n"
+                "If yes, please send the URL.\n"
+                "If not, tap the button below or type 'no'."
+            )
+            await message.reply_text(text, reply_markup=self.build_website_keyboard())
 
-            response = "Please choose *Topic* or *Task* using the buttons below."
-            await update.message.reply_text(
-                response, reply_markup=self.build_topic_or_task_keyboard()
-            )
-            return self.TOPIC_OR_TASK
+        elif state == S.DOCUMENT:
 
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease answer with 'topic' or 'task' again."
+            text = (
+                "Do you have a *document* (PDF, DOCX, TXT) with information to include?\n"
+                "If yes, upload it now.\n"
+                "If not, tap the button below or type 'no'."
             )
-            self.logger.error(f"topic_or_task: An exception occurred: {str(e)}")
-            return self.TOPIC_OR_TASK
+            await message.reply_text(text, reply_markup=self.build_document_keyboard())
 
-    # Step: Topic / Task
+        elif state == S.LENGTH:
+            text = "How long should the blog article be? Choose one of the options below 👇"
+            await message.reply_text(text, reply_markup=self.build_length_keyboard())
 
-    async def topic(self, update: Update, context: CallbackContext):
-        """Saves the topic in the user data"""
-        try:
-            self.logger.debug(
-                f"topic: Function successfully called with message {str(update.message.text)}"
-            )
-            context.user_data["topic"] = update.message.text
-            response = (
-                "Great! 🌐 Do you have a link to a website with information to include?\n"
-                "If yes, please reply with the link. If not, tap the button below or send 'no'."
-            )
-            await update.message.reply_text(
-                response, reply_markup=self.build_website_keyboard()
-            )
-            return self.WEBSITE
+        elif state == S.LEVEL:
+            text = "What *language level* should it be? 👇"
+            await message.reply_text(text, reply_markup=self.build_level_keyboard())
 
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your topic."
-            )
-            self.logger.error(f"topic: An exception occurred: {str(e)}")
-            return self.TOPIC
+        elif state == S.INFO:
+            text = "What *information level* should it be? 👇"
+            await message.reply_text(text, reply_markup=self.build_info_keyboard())
 
-    async def task(self, update: Update, context: CallbackContext):
-        """Saves the task in the user data"""
-        try:
-            self.logger.debug(
-                f"task: Function successfully called with message {str(update.message.text)}"
+        elif state == S.LANGUAGE:
+            text = (
+                "What *language* should the article be in? 🌍\n"
+                "(e.g. English, German, Spanish)"
             )
-            context.user_data["topic"] = update.message.text
-            response = (
-                "Great! 🌐 Do you have a link to a website with information to include?\n"
-                "If yes, please reply with the link. If not, tap the button below or send 'no'."
-            )
-            await update.message.reply_text(
-                response, reply_markup=self.build_website_keyboard()
-            )
-            return self.WEBSITE
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your task."
-            )
-            self.logger.error(f"task: An exception occurred: {str(e)}")
-            return self.TASK
-
-    # Step: Website
-
-    async def website_button(self, update: Update, context: CallbackContext):
-        """Handles 'No website' button."""
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-        self.logger.debug(f"website_button: User chose {choice}")
-
-        if choice == "no_website":
-            await query.edit_message_text(
-                "Do you have a website link to include?\n\n✅ Selected: No website"
-            )
-            response = (
-                "Great! 📎 Do you have a *document* with information to include?\n"
-                "If yes, upload the document now (PDF, DOCX, TXT). "
-                "If not, tap the button below or send 'no'."
-            )
-            await query.message.reply_text(
-                response, reply_markup=self.build_document_keyboard()
-            )
-            return self.DOCUMENT
-
-        await query.message.reply_text(
-            "Please send a website URL or choose 'No website'."
-        )
-        return self.WEBSITE
-
-    async def website(self, update: Update, context: CallbackContext):
-        """Saves a website link in the user data if one is sent"""
-        try:
-            self.logger.debug(
-                f"website: Function successfully called with message {str(update.message.text)}"
+            await message.reply_text(
+                text, reply_markup=self.build_navigation_keyboard()
             )
 
-            if update.message.text == "no" and self.retry is True:
-                response = (
-                    "Okay, you keep your websites as they are.\n"
-                    "Next: Do you want to upload a document? If yes, send it now. "
-                    "If not, tap the button below or respond with 'no'."
-                )
-                await update.message.reply_text(
-                    response, reply_markup=self.build_document_keyboard()
-                )
-                return self.DOCUMENT
+        elif state == S.TONE:
+            text = "What *tone* should the article have? 🎨"
+            await message.reply_text(text, reply_markup=self.build_tone_keyboard())
 
-            if update.message.text != "no" and self.retry is True:
-                self.addWebsite(update.message.text)
-                response = (
-                    "Okay, do you have another website link? If yes, send it now. "
-                    "If not, please tap 'No website' or respond with 'no'."
-                )
-                await update.message.reply_text(
-                    response, reply_markup=self.build_website_keyboard()
-                )
-                return self.WEBSITE
+        elif state == S.ADDITIONAL:
 
-            if update.message.text.lower() != "no":
-                self.addWebsite(update.message.text)
-                response = (
-                    "Got it! 🌐\nDo you have another website link? "
-                    "If yes, send it now. If not, please tap 'No website' or reply with 'no'."
-                )
-                await update.message.reply_text(
-                    response, reply_markup=self.build_website_keyboard()
-                )
-                return self.WEBSITE
-
-            response = (
-                "Great! 📎 Do you have a *document* with information to include?\n"
-                "If yes, upload the document now (PDF, DOCX, TXT). "
-                "If not, tap the button below or send 'no'."
+            text = (
+                "Do you have any *additional information* you want to include?\n"
+                "If not, tap the button below or type 'no'."
             )
-            await update.message.reply_text(
-                response, reply_markup=self.build_document_keyboard()
-            )
-            return self.DOCUMENT
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your link or 'no'."
-            )
-            self.logger.error(f"website: An exception occurred: {str(e)}")
-            return self.WEBSITE
-
-    # Step: Document
-
-    async def document(self, update: Update, context: CallbackContext):
-        """Saves a document in the 'documents' folder and the storage link in the user data if one is sent"""
-        try:
-            self.logger.debug("document: Function successfully called.")
-            document = update.message.document
-            if document:
-                if document.mime_type not in self.VALID_MIME_TYPES:
-                    await update.message.reply_text(
-                        f"Unsupported file type: {document.mime_type}.\n"
-                        f"Please upload a valid document (PDF, Word, TXT)."
-                    )
-                    return self.DOCUMENT
-
-                base_dir = os.path.dirname(__file__)
-                file_path = os.path.join(base_dir, "documents", document.file_name)
-                self.logger.debug(f"document: File saved at: {file_path}")
-                file_id = document.file_id
-                file = await context.bot.get_file(file_id)
-                await file.download_to_drive(file_path)
-
-                match document.mime_type:
-                    case "application/pdf":
-                        self.addPDF(file_path)
-                    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                        self.addDOCX(file_path)
-                    case "text/plain":
-                        self.addTxt(file_path)
-                    case _:
-                        await update.message.reply_text(
-                            "Invalid file type, only acceptable file endings are: PDF, TXT and DOCX."
-                        )
-                        self.logger.warning(
-                            f"document: Invalid file type sent: {document.mime_type}"
-                        )
-                        return self.DOCUMENT
-
-            response = (
-                "Do you have another document to upload? If yes, send it now.\n"
-                "If not, tap the button below or reply with 'no'."
-            )
-            await update.message.reply_text(
-                response, reply_markup=self.build_document_keyboard()
-            )
-            return self.DOCUMENT
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your document or 'no'."
-            )
-            self.logger.error(f"document: An exception occurred: {str(e)}")
-            return self.DOCUMENT
-
-    async def no_document_button(self, update: Update, context: CallbackContext):
-        """Handles 'No document' button."""
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-        self.logger.debug(f"no_document_button: User chose {choice}")
-
-        if choice == "no_document_btn":
-            await query.edit_message_text(
-                "Do you have a document with information to include?\n\n✅ Selected: No document"
-            )
-            response = "How long should the blog article be? Choose below 👇"
-            await query.message.reply_text(
-                response, reply_markup=self.build_length_keyboard()
-            )
-            return self.LENGTH
-
-        await query.message.reply_text(
-            "Please upload a document or choose 'No document'."
-        )
-        return self.DOCUMENT
-
-    async def no_document(self, update: Update, context: CallbackContext):
-        """Manages what happens when no document is sent"""
-        try:
-            self.logger.debug(
-                f"no_document: called with message {str(update.message.text)}"
+            await message.reply_text(
+                text, reply_markup=self.build_additional_keyboard()
             )
 
-            if update.message.text == "no" and self.retry is True:
-                response = (
-                    "Next, do you want to change your blog article *length*?\n"
-                    "Choose one of the options below 👇"
-                )
-                await update.message.reply_text(
-                    response, reply_markup=self.build_length_keyboard()
-                )
-                return self.LENGTH
-
-            if update.message.text.lower() != "no":
-                response = "Not valid, please send either a document or 'no'."
-                await update.message.reply_text(response)
-                return self.DOCUMENT
-
-            response = "How long should the blog article be? Choose below 👇"
-            await update.message.reply_text(
-                response, reply_markup=self.build_length_keyboard()
-            )
-            return self.LENGTH
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your document or 'no'."
-            )
-            self.logger.error(f"no_document: An exception occurred: {str(e)}")
-            return self.DOCUMENT
-
-    # Step: Length
-
-    async def length_button(self, update: Update, context: CallbackContext):
-        """Handles length choice via InlineKeyboard."""
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-        self.logger.debug(f"length_button: User chose {choice}")
-        context.user_data["length"] = choice
-
-        await query.edit_message_text(
-            f"How long should the blog article be?\n\n✅ Selected: {choice.capitalize()}"
-        )
-
-        response = "Great! What *language level* should it be?"
-        await query.message.reply_text(
-            response, reply_markup=self.build_level_keyboard()
-        )
-        return self.LANGUAGE_LEVEL
-
-    async def length(self, update: Update, context: CallbackContext):
-        """Fallback: saves length from free text."""
-        try:
-            self.logger.debug(f"length: called with message {str(update.message.text)}")
-            context.user_data["length"] = update.message.text
-            response = "Great! What *language level* should it be? (e.g. Beginner, Intermediate, Advanced)"
-            await update.message.reply_text(
-                response, reply_markup=self.build_level_keyboard()
-            )
-            return self.LANGUAGE_LEVEL
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your preferred article length."
-            )
-            self.logger.error(f"length: An exception occurred: {str(e)}")
-            return self.LENGTH
-
-    # Step: Language Level
-
-    async def language_level_button(self, update: Update, context: CallbackContext):
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-        self.logger.debug(f"language_level_button: User chose {choice}")
-        context.user_data["language_level"] = choice
-
-        await query.edit_message_text(
-            "What *language level* should it be?\n\n"
-            f"✅ Selected: {choice.capitalize()}"
-        )
-
-        response = "Nice! 📊 What *information level* should it be?"
-        await query.message.reply_text(
-            response, reply_markup=self.build_info_keyboard()
-        )
-        return self.INFORMATION
-
-    async def language_level(self, update: Update, context: CallbackContext):
-        """Fallback: saves the configured language level in the user data"""
-        try:
-            self.logger.debug(
-                f"language_level: called with message {str(update.message.text)}"
-            )
-            context.user_data["language_level"] = update.message.text
-            response = "Great! What *information level* should it be? (e.g. High, Intermediate, Low)"
-            await update.message.reply_text(
-                response, reply_markup=self.build_info_keyboard()
-            )
-            return self.INFORMATION
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your preferred article language level."
-            )
-            self.logger.error(f"language_level: An exception occurred: {str(e)}")
-            return self.LANGUAGE_LEVEL
-
-    # Step: Information Level
-
-    async def information_button(self, update: Update, context: CallbackContext):
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-        mapped = "medium" if choice == "medium_info" else choice
-
-        self.logger.debug(f"information_button: User chose {mapped}")
-        context.user_data["information"] = mapped
-
-        await query.edit_message_text(
-            "What *information level* should it be?\n\n"
-            f"✅ Selected: {mapped.capitalize()}"
-        )
-
-        response = "Great! 🌍 What *language* should the article be in? (e.g. English, German, Spanish)"
-        await query.message.reply_text(response)
-        return self.LANGUAGE
-
-    async def information(self, update: Update, context: CallbackContext):
-        """Fallback: saves the configured information level in the user data"""
-        try:
-            self.logger.debug(
-                f"information: called with message {str(update.message.text)}"
-            )
-            context.user_data["information"] = update.message.text
-            response = "Great! 🌍 What *language* should it be? (e.g. English, German, Spanish)"
-            await update.message.reply_text(response)
-            return self.LANGUAGE
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your preferred article information level."
-            )
-            self.logger.error(f"information: An exception occurred: {str(e)}")
-            return self.INFORMATION
-
-    # Step: Language
-
-    async def language(self, update: Update, context: CallbackContext):
-        """Saves the configured language in the user data and asks for tone via buttons"""
-        try:
-            self.logger.debug(
-                f"language: called with message {str(update.message.text)}"
-            )
-            context.user_data["language"] = update.message.text
-
-            response = "Great! 🎨 What *tone* should it be?"
-            await update.message.reply_text(
-                response, reply_markup=self.build_tone_keyboard()
-            )
-            return self.TONE
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your preferred article language."
-            )
-            self.logger.error(f"language: An exception occurred: {str(e)}")
-            return self.LANGUAGE
-
-    # Step: Tone
-
-    async def tone_button(self, update: Update, context: CallbackContext):
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-        self.logger.debug(f"tone_button: User chose {choice}")
-        context.user_data["tone"] = choice
-
-        await query.edit_message_text(
-            "What *tone* should the article have?\n\n"
-            f"✅ Selected: {choice.capitalize()}"
-        )
-
-        response = (
-            "Great! ℹ️ Do you have any *additional information* to include?\n"
-            "Choose one of the options below."
-        )
-        await query.message.reply_text(
-            response, reply_markup=self.build_additional_keyboard()
-        )
-        return self.ADDITIONAL
-
-    async def tone(self, update: Update, context: CallbackContext):
-        """Fallback: saves the configured tone in the user data and asks for additional info"""
-        try:
-            self.logger.debug(f"tone: called with message {str(update.message.text)}")
-            context.user_data["tone"] = update.message.text
-            response = (
-                "Great! ℹ️ Do you have any *additional information* you want to have included?\n"
-                "If not, please respond with 'no'."
-            )
-            await update.message.reply_text(
-                response, reply_markup=self.build_additional_keyboard()
-            )
-            return self.ADDITIONAL
-
-        except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your preferred article tone."
-            )
-            self.logger.error(f"tone: An exception occurred: {str(e)}")
-            return self.TONE
-
-    # Step: Additional information
-
-    async def additional_button_choice(self, update: Update, context: CallbackContext):
-        """Handles 'No additional info' vs 'Add details' buttons."""
-        query = update.callback_query
-        choice = query.data
-        await query.answer()
-        self.logger.debug(f"additional_button_choice: User chose {choice}")
-
-        if choice == "no_additional":
-            await query.edit_message_text(
-                "Do you have any additional information to include?\n\n"
-                "✅ Selected: No additional info"
-            )
-            context.user_data["additional_information"] = ""
+        elif state == S.CONFIRM:
             user_data = context.user_data
-            response = (
-                "Thanks! Here's what I got:\n"
-                f"- Topic or Task: {user_data.get('topic')}\n"
-                f"- Length: {user_data.get('length')}\n"
-                f"- Language Level: {user_data.get('language_level')}\n"
-                f"- Information Level: {user_data.get('information')}\n"
-                f"- Language: {user_data.get('language')}\n"
-                f"- Tone: {user_data.get('tone')}\n"
-                f"- Additional Information: (none)\n\n"
-                "Choose whether you want to confirm or restart:"
-            )
-            await query.message.reply_text(
-                response, reply_markup=self.build_confirm_keyboard()
-            )
-            return self.CONFIRM
-
-        if choice == "add_additional":
-            await query.edit_message_text(
-                "Okay, please type any *additional information* you want to include."
-            )
-            return self.ADDITIONAL
-
-        await query.message.reply_text(
-            "Please choose an option for additional information."
-        )
-        return self.ADDITIONAL
-
-    async def additional(self, update: Update, context: CallbackContext):
-        """Handles free-text additional information (when user chose 'Add details')."""
-        try:
-            self.logger.debug(
-                f"additional_information: called with message {str(update.message.text)}"
-            )
-            context.user_data["additional_information"] = ""
-            if update.message.text.lower() != "no":
-                context.user_data["additional_information"] = update.message.text
-
-            user_data = context.user_data
-            response = (
-                "Thanks! Here's what I got:\n"
+            text = (
+                "Thanks! Here's your configuration:\n\n"
                 f"- Topic or Task: {user_data.get('topic')}\n"
                 f"- Length: {user_data.get('length')}\n"
                 f"- Language Level: {user_data.get('language_level')}\n"
@@ -871,35 +327,531 @@ class TelegramBot:
                 f"- Language: {user_data.get('language')}\n"
                 f"- Tone: {user_data.get('tone')}\n"
                 f"- Additional Information: {user_data.get('additional_information')}\n\n"
-                "Choose whether you want to confirm or restart:"
+                "If everything looks good, confirm to start generation."
             )
-            await update.message.reply_text(
-                response, reply_markup=self.build_confirm_keyboard()
-            )
-            return self.CONFIRM
+            await message.reply_text(text, reply_markup=self.build_confirm_keyboard())
+
+        else:
+            await message.reply_text("Unknown state. Please /start again.")
+
+    async def go_to_state(
+        self,
+        update: Update,
+        context: CallbackContext,
+        from_state: S | None,
+        to_state: S,
+    ) -> int:
+        """bridge between the states"""
+        if from_state is not None:
+            self.push_state(context, from_state)
+        context.user_data["current_state"] = int(to_state)
+        await self.ask_state_question(update, context, to_state)
+        return int(to_state)
+
+    # Chat / Commands
+
+    async def chat(self, update: Update, context: CallbackContext):
+        """Free LLM Chat"""
+        response = ""
+        try:
+            self.logger.debug(f"chat: called with message {str(update.message.text)}")
+            context.user_data["history"] = context.user_data.get("history", []) + [
+                update.message.text
+            ]
+            history = "\n".join(context.user_data["history"])
+            response = str(self.ai.invoke(history))
+            await update.message.reply_html(response)
+            self.logger.debug(f"chat: answered with {str(response)}")
+            context.user_data["history"].append(str(response))
+            return self.CHAT
+
+        except BadRequest as b:
+            if b.message == "Message is too long":
+                responses = response.split("\n\n")
+                self.logger.warning("chat: Message too long, split into smaller parts.")
+                for r in responses:
+                    await update.message.reply_text(r)
+            return self.CHAT
 
         except Exception as e:
-            await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nPlease resend your additional information."
+            await update.message.reply_text(f"chat: An error occurred: {str(e)}")
+            return self.CHAT
+
+    # /start – introduction
+
+    async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Entry: Explains bot and navigation."""
+        try:
+            user = update.effective_user
+            message = update.effective_message
+
+            self.logger.info(
+                f"start: Conversation started with {str(user.mention_html())}"
             )
-            self.logger.error(f"additional: An exception occurred: {str(e)}")
-            return self.ADDITIONAL
+            text = (
+                f"Hi {user.mention_html()}! 👋\n\n"
+                "I'm a chatbot for creating blog articles using RAG and Multi-Agent Systems.\n\n"
+                "We'll go through a short wizard where you configure:\n"
+                "• Topic or Task\n"
+                "• Sources (Websites / Documents)\n"
+                "• Length, language level, info level\n"
+                "• Language, tone, additional information\n\n"
+                "At any time you can use:\n"
+                "🔁 Restart – to reset the wizard and start from the beginning\n"
+                "⬅️ Back – to go one step back and adjust your previous answer\n\n"
+                "Ready? Start the configuration below 👇"
+            )
+            await message.reply_html(
+                text,
+                reply_markup=self.build_start_configuration_keyboard(),
+            )
+            context.user_data.setdefault("history", [])
+            return self.CHAT
+
+        except Exception as e:
+            await update.effective_message.reply_text(f"An error occurred: {str(e)}")
+            self.logger.error(f"start: exception {str(e)}")
+            return self.CHAT
+
+    # /help – deprecated
+
+    async def help(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        try:
+            message = update.effective_message
+            text = (
+                "Help – RAG-MAS Blog Article Wizard 🤖\n\n"
+                "Commands:\n"
+                "• /start – Show introduction and start button\n"
+                "• /chat – Free chat with the LLM\n\n"
+                "During configuration you can always use:\n"
+                "🔁 Restart – reset wizard and start from the beginning\n"
+                "⬅️ Back – go one step back\n"
+            )
+            await message.reply_text(text)
+            self.logger.debug("help: sent.")
+            return self.CHAT
+
+        except Exception as e:
+            await update.effective_message.reply_text(f"An error occurred: {str(e)}")
+            self.logger.error(f"help: exception {str(e)}")
+            return self.CHAT
+
+    # start for wizard
+
+    async def start_configuration_entry(self, update: Update, context: CallbackContext):
+        """starts wizard."""
+        try:
+
+            self.reset_wizard_data(context)
+            await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
+            return int(S.TOPIC_OR_TASK)
+
+        except Exception as e:
+            self.logger.error(f"start_configuration_entry: error {e}", exc_info=True)
+            await update.effective_message.reply_text(
+                "An unexpected error occurred while starting the configuration."
+            )
+            return ConversationHandler.END
+
+    async def start_configuration_button(
+        self, update: Update, context: CallbackContext
+    ):
+
+        query = update.callback_query
+        await query.answer()
+        self.logger.debug("start_configuration_button: pressed.")
+
+        return await self.start_configuration_entry(update, context)
+
+    # Navigation: Restart & Back
+
+    async def handle_navigation(self, update: Update, context: CallbackContext) -> int:
+        """handles navigation with 'restart' & 'back'"""
+        query = update.callback_query
+        data = query.data
+        await query.answer()
+
+        user_data = context.user_data
+        current_state_val = user_data.get("current_state", int(S.TOPIC_OR_TASK))
+        current_state = S(current_state_val)
+
+        self.logger.debug(
+            f"handle_navigation: data={data}, current_state={current_state}"
+        )
+
+        if data == "nav_restart":
+
+            self.reset_wizard_data(context)
+            await query.message.reply_text("Wizard restarted. 🔁")
+            await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
+            return int(S.TOPIC_OR_TASK)
+
+        if data == "nav_back":
+            stack = user_data.get("state_stack", [])
+            if not stack:
+
+                self.logger.debug("handle_navigation: back at first state.")
+                user_data["current_state"] = int(S.TOPIC_OR_TASK)
+                await query.message.reply_text("You are already at the first step.")
+                await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
+                return int(S.TOPIC_OR_TASK)
+
+            self.clear_state_data(context, current_state)
+
+            prev_state_val = stack.pop()
+            prev_state = S(prev_state_val)
+            user_data["state_stack"] = stack
+            user_data["current_state"] = int(prev_state)
+
+            self.logger.debug(
+                f"handle_navigation: going back from {current_state} to {prev_state}"
+            )
+            await query.message.reply_text("Going back one step. ⬅️")
+            await self.ask_state_question(update, context, prev_state)
+            return int(prev_state)
+
+        await query.message.reply_text(
+            "Unknown navigation action. Please use the wizard buttons again."
+        )
+        return current_state_val
+
+    # Step: Topic or Task
+
+    async def topic_or_task_button(
+        self, update: Update, context: CallbackContext
+    ) -> int:
+        query = update.callback_query
+        data = query.data
+        await query.answer()
+
+        _, choice = data.split(":", 1)
+        self.logger.debug(f"topic_or_task_button: choice={choice}")
+
+        base_question = (
+            "Let's configure your blog article! ✍️\n\n"
+            "First, do you already have a *topic* or rather a *task* "
+            "the article should fulfil?"
+        )
+        await query.edit_message_text(
+            f"{base_question}\n\n✅ Selected: {choice.capitalize()}"
+        )
+
+        if choice == "topic":
+            return await self.go_to_state(
+                update, context, from_state=S.TOPIC_OR_TASK, to_state=S.TOPIC
+            )
+
+        if choice == "task":
+            return await self.go_to_state(
+                update, context, from_state=S.TOPIC_OR_TASK, to_state=S.TASK
+            )
+
+        await query.message.reply_text(
+            "Please choose either *Topic* or *Task* using the buttons."
+        )
+        return int(S.TOPIC_OR_TASK)
+
+    async def topic_or_task(self, update: Update, context: CallbackContext) -> int:
+
+        text = (update.message.text or "").strip().lower()
+        self.logger.debug(f"topic_or_task {text}")
+
+        if text == "topic":
+            return await self.go_to_state(
+                update, context, from_state=S.TOPIC_OR_TASK, to_state=S.TOPIC
+            )
+        if text == "task":
+            return await self.go_to_state(
+                update, context, from_state=S.TOPIC_OR_TASK, to_state=S.TASK
+            )
+
+        await update.message.reply_text(
+            "Please choose *Topic* or *Task* using the buttons."
+        )
+        return int(S.TOPIC_OR_TASK)
+
+    # Step: Topic / Task
+
+    async def topic(self, update: Update, context: CallbackContext) -> int:
+        """Saves the topic in the user data"""
+        text = update.message.text
+        self.logger.debug(f"topic: {text}")
+        context.user_data["topic"] = text
+        return await self.go_to_state(
+            update, context, from_state=S.TOPIC, to_state=S.WEBSITE
+        )
+
+    async def task(self, update: Update, context: CallbackContext) -> int:
+        """Saves the task in the user data"""
+        text = update.message.text
+        self.logger.debug(f"task: {text}")
+        context.user_data["topic"] = text
+        return await self.go_to_state(
+            update, context, from_state=S.TASK, to_state=S.WEBSITE
+        )
+
+    # Step: Website
+
+    async def website(self, update: Update, context: CallbackContext) -> int:
+        text = (update.message.text or "").strip()
+        self.logger.debug(f"website: {text}")
+
+        if text.lower() != "no":
+
+            self.addWebsite(text)
+
+        return await self.go_to_state(
+            update, context, from_state=S.WEBSITE, to_state=S.DOCUMENT
+        )
+
+    async def website_button(self, update: Update, context: CallbackContext) -> int:
+        query = update.callback_query
+        await query.answer()
+        self.logger.debug("website_no_button: user chose 'No website'")
+
+        base_question = (
+            "Do you have a website with information that should be included?\n"
+            "If yes, please send the URL.\n"
+            "If not, tap the button below or type 'no'."
+        )
+
+        await query.edit_message_text(f"{base_question}\n\n✅ Selected: No website")
+
+        return await self.go_to_state(
+            update, context, from_state=S.WEBSITE, to_state=S.DOCUMENT
+        )
+
+    # Step: Document
+
+    async def document(self, update: Update, context: CallbackContext) -> int:
+        """processes document input or skip with 'no'"""
+        message = update.message
+        text = (message.text or "").strip() if message.text else None
+        document = message.document
+
+        if text is not None and text.lower() == "no" and document is None:
+            self.logger.debug("document: user typed 'no'")
+            return await self.go_to_state(
+                update, context, from_state=S.DOCUMENT, to_state=S.LENGTH
+            )
+
+        if document:
+            self.logger.debug(
+                f"document: received document {document.file_name} ({document.mime_type})"
+            )
+            if document.mime_type not in self.VALID_MIME_TYPES:
+                await message.reply_text(
+                    f"Unsupported file type: {document.mime_type}.\n"
+                    "Please upload PDF, DOCX or TXT, or type 'no'."
+                )
+                return int(S.DOCUMENT)
+
+            base_dir = os.path.dirname(__file__)
+            file_path = os.path.join(base_dir, "documents", document.file_name)
+            file = await context.bot.get_file(document.file_id)
+            await file.download_to_drive(file_path)
+
+            if document.mime_type == "application/pdf":
+                self.addPDF(file_path)
+            elif (
+                document.mime_type
+                == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ):
+                self.addDOCX(file_path)
+            elif document.mime_type == "text/plain":
+                self.addTxt(file_path)
+
+        return await self.go_to_state(
+            update, context, from_state=S.DOCUMENT, to_state=S.LENGTH
+        )
+
+    async def no_document_button(self, update: Update, context: CallbackContext) -> int:
+        query = update.callback_query
+        await query.answer()
+        self.logger.debug("no_document_button: user chose 'No document'")
+
+        base_question = (
+            "Do you have a *document* (PDF, DOCX, TXT) with information to include?\n"
+            "If yes, upload it now.\n"
+            "If not, tap the button below or type 'no'."
+        )
+
+        await query.edit_message_text(f"{base_question}\n\n✅ Selected: No document")
+
+        return await self.go_to_state(
+            update, context, from_state=S.DOCUMENT, to_state=S.LENGTH
+        )
+
+    # Step: Length
+
+    async def length_button(self, update: Update, context: CallbackContext) -> int:
+        query = update.callback_query
+        data = query.data
+        await query.answer()
+        _, value = data.split(":", 1)
+        self.logger.debug(f"length_button: {value}")
+        context.user_data["length"] = value
+
+        question_text = (
+            "How long should the blog article be? Choose one of the options below 👇"
+        )
+        await query.edit_message_text(
+            f"{question_text}\n\n✅ Selected: {value.capitalize()}"
+        )
+
+        return await self.go_to_state(
+            update, context, from_state=S.LENGTH, to_state=S.LEVEL
+        )
+
+    async def length_text(self, update: Update, context: CallbackContext) -> int:
+        text = update.message.text
+        self.logger.debug(f"length_text: {text}")
+        context.user_data["length"] = text
+        return await self.go_to_state(
+            update, context, from_state=S.LENGTH, to_state=S.LEVEL
+        )
+
+    # Step: Language Level
+
+    async def language_level_button(
+        self, update: Update, context: CallbackContext
+    ) -> int:
+        query = update.callback_query
+        data = query.data
+        await query.answer()
+        _, value = data.split(":", 1)
+        self.logger.debug(f"language_level_button: {value}")
+        context.user_data["language_level"] = value
+
+        question_text = "What *language level* should it be? 👇"
+        await query.edit_message_text(
+            f"{question_text}\n\n✅ Selected: {value.capitalize()}"
+        )
+
+        return await self.go_to_state(
+            update, context, from_state=S.LEVEL, to_state=S.INFO
+        )
+
+    async def language_level(self, update: Update, context: CallbackContext) -> int:
+        text = update.message.text
+        self.logger.debug(f"language_level: {text}")
+        context.user_data["language_level"] = text
+        return await self.go_to_state(
+            update, context, from_state=S.LEVEL, to_state=S.INFO
+        )
+
+    # Step: Information Level
+
+    async def info_level_button(self, update: Update, context: CallbackContext) -> int:
+        query = update.callback_query
+        data = query.data
+        await query.answer()
+        _, value = data.split(":", 1)
+        self.logger.debug(f"info_level_button: {value}")
+        context.user_data["information"] = value
+
+        question_text = "What *information level* should it be? 👇"
+        await query.edit_message_text(
+            f"{question_text}\n\n✅ Selected: {value.capitalize()}"
+        )
+
+        return await self.go_to_state(
+            update, context, from_state=S.INFO, to_state=S.LANGUAGE
+        )
+
+    async def info_level(self, update: Update, context: CallbackContext) -> int:
+        text = update.message.text
+        self.logger.debug(f"info_level: {text}")
+        context.user_data["info_level"] = text
+        return await self.go_to_state(
+            update, context, from_state=S.INFO, to_state=S.LANGUAGE
+        )
+
+    # Step: Language
+
+    async def language(self, update: Update, context: CallbackContext) -> int:
+        text = update.message.text
+        self.logger.debug(f"language: {text}")
+        context.user_data["language"] = text
+        return await self.go_to_state(
+            update, context, from_state=S.LANGUAGE, to_state=S.TONE
+        )
+
+    # Step: Tone
+
+    async def tone_button(self, update: Update, context: CallbackContext) -> int:
+        query = update.callback_query
+        data = query.data
+        await query.answer()
+        _, value = data.split(":", 1)
+        self.logger.debug(f"tone_button: {value}")
+        context.user_data["tone"] = value
+
+        question_text = "What *tone* should the article have? 🎨"
+        await query.edit_message_text(
+            f"{question_text}\n\n✅ Selected: {value.capitalize()}"
+        )
+
+        return await self.go_to_state(
+            update, context, from_state=S.TONE, to_state=S.ADDITIONAL
+        )
+
+    async def tone(self, update: Update, context: CallbackContext) -> int:
+        text = update.message.text
+        self.logger.debug(f"tone: {text}")
+        context.user_data["tone"] = text
+        return await self.go_to_state(
+            update, context, from_state=S.TONE, to_state=S.ADDITIONAL
+        )
+
+    # Step: Additional Information
+
+    async def additional(self, update: Update, context: CallbackContext) -> int:
+        text = (update.message.text or "").strip()
+        self.logger.debug(f"additional: {text}")
+
+        if text.lower() == "no":
+            context.user_data["additional_information"] = ""
+        else:
+            context.user_data["additional_information"] = text
+
+        return await self.go_to_state(
+            update, context, from_state=S.ADDITIONAL, to_state=S.CONFIRM
+        )
+
+    async def additional_no_button(
+        self, update: Update, context: CallbackContext
+    ) -> int:
+        query = update.callback_query
+        await query.answer()
+        self.logger.debug("additional_no_button: user chose 'No additional info'")
+
+        context.user_data["additional_information"] = ""
+
+        base_question = (
+            "Do you have any *additional information* you want to include?\n"
+            "If not, tap the button below or type 'no'."
+        )
+
+        await query.edit_message_text(
+            f"{base_question}\n\n✅ Selected: No additional info"
+        )
+
+        return await self.go_to_state(
+            update, context, from_state=S.ADDITIONAL, to_state=S.CONFIRM
+        )
 
     # Step: Confirm
 
-    async def confirm_button(self, update: Update, context: CallbackContext):
-        """Handle Confirm/Restart buttons."""
+    async def confirm_button(self, update: Update, context: CallbackContext) -> int:
         query = update.callback_query
-        choice = query.data
+        data = query.data
         await query.answer()
-        self.logger.debug(f"confirm_button: User chose {choice}")
+        _, action = data.split(":", 1)
+        self.logger.debug(f"confirm_button: action={action}")
 
-        if choice == "confirm":
-            await query.edit_message_text(
-                query.message.text + "\n\n✅ You confirmed this configuration."
-            )
-
-            await query.message.reply_text("Processing your request...")
+        if action == "confirm":
+            await query.message.reply_text("Generating your article, please wait... ✅")
 
             inputs = {
                 "topic": context.user_data.get("topic"),
@@ -919,242 +871,200 @@ class TelegramBot:
                 result = bot.crew().kickoff(inputs=inputs)
                 await query.message.reply_text(str(result))
                 self.logger.debug("confirm_button: Crew run successful.")
-            except Exception as crew_error:
-                self.logger.error(
-                    f"confirm_button: Error during crew execution: {crew_error}",
-                    exc_info=True,
-                )
+            except Exception as e:
+                self.logger.error(f"confirm_button: crew error {e}", exc_info=True)
                 await query.message.reply_text(
                     "❌ An error occurred during article generation. Please try again."
                 )
 
             return ConversationHandler.END
 
-        if choice == "restart":
-            await query.edit_message_text(
-                query.message.text + "\n\n🔁 You chose to restart the wizard."
-            )
-            self.retry = True
-            response = (
-                "Okay! You can change any answer. We'll go through the questions again.\n"
-                "If you want to keep a previous answer, just reply with 'no' at that step.\n\n"
-                "First: Do you want to base the article on a topic or a task?"
-            )
-            await query.message.reply_text(
-                response, reply_markup=self.build_topic_or_task_keyboard()
-            )
-            return first_state()
-
         await query.message.reply_text(
-            "Please choose whether you want to confirm or restart."
+            "Unknown confirm action. Please use the buttons again."
         )
-        return self.CONFIRM
+        return int(S.CONFIRM)
 
-    async def confirm(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Shows summary of all collected configuration values and handles final confirmation."""
-        try:
-            user_reply = update.message.text.strip().lower()
+    async def confirm(self, update: Update, context: CallbackContext) -> int:
+        text = (update.message.text or "").strip().lower()
+        self.logger.debug(f"confirm: {text}")
 
-            if user_reply in ["yes", "y", "ja"]:
-                self.logger.debug("confirm: User confirmed configuration.")
+        if text in ("yes", "y", "ja"):
 
-                await update.message.reply_text("Processing your request...")
-
-                inputs = {
-                    "topic": context.user_data.get("topic"),
-                    "length": context.user_data.get("length"),
-                    "language_level": context.user_data.get("language_level"),
-                    "information_level": context.user_data.get("information"),
-                    "language": context.user_data.get("language"),
-                    "tone": context.user_data.get("tone"),
-                    "additional_information": context.user_data.get(
-                        "additional_information"
-                    ),
-                    "history": context.user_data.get("history", []),
-                }
-
-                try:
-                    bot = BaRagmasChatbot(self.tools)
-                    result = bot.crew().kickoff(inputs=inputs)
-
-                    await update.message.reply_text(str(result))
-                    self.logger.debug("confirm: Crew run successful.")
-
-                except Exception as crew_error:
-                    self.logger.error(
-                        f"confirm: Error during crew execution: {crew_error}",
-                        exc_info=True,
-                    )
-                    await update.message.reply_text(
-                        "❌ An error occurred during article generation. Please try again."
-                    )
-
-                return ConversationHandler.END
-
-            elif user_reply in ["no", "n", "nein"]:
-                self.logger.debug(
-                    "confirm: User rejected configuration. Restarting questions."
-                )
-
-                await update.message.reply_text(
-                    "Okay! You can change any answer. We'll go through the questions again.\n"
-                    "If you want to keep a previous answer, just reply with 'no' at that step."
-                )
-
-                self.retry = True
-                response = (
-                    "First: Do you want to base the article on a topic or a task?"
-                )
-                await update.message.reply_text(
-                    response, reply_markup=self.build_topic_or_task_keyboard()
-                )
-                return first_state()
-
-            else:
-                self.logger.debug("confirm: Invalid answer, prompting again.")
-
-                await update.message.reply_text(
-                    "Please respond with 'yes' to confirm or 'no' to restart.\n"
-                    "Or use the buttons above."
-                )
-                return S.CONFIRM
-
-        except Exception as e:
-            self.logger.error(f"confirm: Unexpected error: {e}", exc_info=True)
             await update.message.reply_text(
-                "An unexpected error occurred in the confirmation step."
+                "Generating your article, please wait... ✅"
             )
+
+            inputs = {
+                "topic": context.user_data.get("topic"),
+                "length": context.user_data.get("length"),
+                "language_level": context.user_data.get("language_level"),
+                "information_level": context.user_data.get("information"),
+                "language": context.user_data.get("language"),
+                "tone": context.user_data.get("tone"),
+                "additional_information": context.user_data.get(
+                    "additional_information"
+                ),
+                "history": context.user_data.get("history", []),
+            }
+
+            try:
+                bot = BaRagmasChatbot(self.tools)
+                result = bot.crew().kickoff(inputs=inputs)
+                await update.message.reply_text(str(result))
+                self.logger.debug("confirm: Crew run successful.")
+            except Exception as e:
+                self.logger.error(f"confirm: crew error {e}", exc_info=True)
+                await update.message.reply_text(
+                    "❌ An error occurred during article generation. Please try again."
+                )
+
             return ConversationHandler.END
 
-    # Cancel
+        if text in ("no", "n", "nein"):
 
-    async def cancel(self, update: Update, context: CallbackContext):
-        """The fallout function, leaves the conversation"""
-        try:
-            self.logger.debug(f"cancel: called with message {str(update.message.text)}")
-            response = "Conversation canceled. Type /start to begin again."
-            await update.message.reply_text(response)
-            return ConversationHandler.END
-
-        except Exception as e:
+            self.reset_wizard_data(context)
             await update.message.reply_text(
-                f"An error occurred: {str(e)}. \nConversation canceled. Type /start to begin again."
+                "Configuration discarded. Restarting wizard. 🔁"
             )
-            self.logger.error(f"cancel: An exception occurred: {str(e)}")
-            return ConversationHandler.END
+            await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
+            return int(S.TOPIC_OR_TASK)
+
+        await update.message.reply_text(
+            "Please reply with 'yes' to confirm or 'no' to restart.\n"
+            "Or use the buttons above."
+        )
+        return int(S.CONFIRM)
 
     # Start bot
 
     def start_bot(self) -> None:
         """Builds and starts the Telegram bot with the conversation handler."""
-
         application = Application.builder().token(self.token).build()
 
         conv_handler = ConversationHandler(
             entry_points=[
-                CommandHandler("start_configuration", self.start_configuration),
+                CommandHandler("start_configuration", self.start_configuration_entry),
+                CallbackQueryHandler(
+                    self.start_configuration_button,
+                    pattern="^start_config$",
+                ),
             ],
             states={
                 S.TOPIC_OR_TASK: [
-                    CallbackQueryHandler(self.topic_or_task_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(
+                        self.topic_or_task_button, pattern="^topic_or_task:"
+                    ),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.topic_or_task,
                     ),
                 ],
                 S.TOPIC: [
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.topic,
-                    )
+                    ),
                 ],
                 S.TASK: [
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.task,
-                    )
+                    ),
                 ],
                 S.WEBSITE: [
-                    CallbackQueryHandler(self.website_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(self.website_button, pattern="^website:no$"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.website,
                     ),
                 ],
                 S.DOCUMENT: [
-                    CallbackQueryHandler(self.no_document_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(
+                        self.no_document_button, pattern="^document:no$"
+                    ),
                     MessageHandler(
                         filters.Document.ALL & ~filters.COMMAND,
                         self.document,
                     ),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
-                        self.no_document,
+                        self.document,
                     ),
                 ],
                 S.LENGTH: [
-                    CallbackQueryHandler(self.length_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(self.length_button, pattern="^length:"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
-                        self.length,
+                        self.length_text,
                     ),
                 ],
                 S.LEVEL: [
-                    CallbackQueryHandler(self.language_level_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(self.language_level_button, pattern="^level:"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.language_level,
                     ),
                 ],
                 S.INFO: [
-                    CallbackQueryHandler(self.information_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(self.info_level_button, pattern="^info:"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
-                        self.information,
+                        self.info_level,
                     ),
                 ],
                 S.LANGUAGE: [
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.language,
-                    )
+                    ),
                 ],
                 S.TONE: [
-                    CallbackQueryHandler(self.tone_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(self.tone_button, pattern="^tone:"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.tone,
                     ),
                 ],
                 S.ADDITIONAL: [
-                    CallbackQueryHandler(self.additional_button_choice),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(
+                        self.additional_no_button, pattern="^additional:no$"
+                    ),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.additional,
                     ),
                 ],
                 S.CONFIRM: [
-                    CallbackQueryHandler(self.confirm_button),
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    CallbackQueryHandler(self.confirm_button, pattern="^confirm:"),
                     MessageHandler(
                         filters.TEXT & ~filters.COMMAND,
                         self.confirm,
                     ),
                 ],
             },
-            fallbacks=[
-                CommandHandler("cancel", self.cancel),
-            ],
+            fallbacks=[],
             name="blog_config_conversation",
         )
 
         application.add_handler(CommandHandler("start", self.start))
         application.add_handler(CommandHandler("help", self.help))
-        application.add_handler(CommandHandler("clear", self.clear))
-        application.add_handler(CommandHandler("cancel", self.cancel))
+        application.add_handler(CommandHandler("chat", self.chat))
         application.add_handler(conv_handler)
         application.run_polling()
 
-    # RAG Tools
+    # RAG-Tools
 
     def addWebsite(self, url):
         self.tools.append(
