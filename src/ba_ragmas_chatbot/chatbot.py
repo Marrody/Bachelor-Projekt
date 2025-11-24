@@ -228,10 +228,33 @@ class TelegramBot:
         elif state == S.ADDITIONAL:
             user_data.pop("additional_information", None)
 
+    def set_last_wizard_message(self, context: CallbackContext, message) -> None:
+        """Store the last wizard message, to remove its buttons later on."""
+        context.user_data["last_wizard_message"] = {
+            "chat_id": message.chat_id,
+            "message_id": message.message_id,
+        }
+
+    async def clear_last_wizard_keyboard(self, context: CallbackContext) -> None:
+        """Remove inline keyboard from the last wizard message."""
+        info = context.user_data.get("last_wizard_message")
+        if not info:
+            return
+
+        try:
+            await context.bot.edit_message_reply_markup(
+                chat_id=info["chat_id"],
+                message_id=info["message_id"],
+                reply_markup=None,
+            )
+        except BadRequest as e:
+
+            self.logger.debug(f"clear_last_wizard_keyboard: {e}")
+
     async def ask_state_question(
         self, update: Update, context: CallbackContext, state: S
     ) -> None:
-        """state-handler of the wizard"""
+        """State-Handler: Asks the question for the given state and saves the message."""
         message = update.effective_message
 
         if state == S.TOPIC_OR_TASK:
@@ -240,18 +263,20 @@ class TelegramBot:
                 "First, do you already have a *topic* or rather a *task* "
                 "the article should fulfil?"
             )
-            await message.reply_text(
+            sent = await message.reply_text(
                 text, reply_markup=self.build_topic_or_task_keyboard()
             )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.TOPIC:
             text = (
                 "Great, you've chosen *Topic*! 📝\n\n"
                 "What topic should the blog article be about?"
             )
-            await message.reply_text(
+            sent = await message.reply_text(
                 text, reply_markup=self.build_navigation_keyboard()
             )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.TASK:
             text = (
@@ -259,62 +284,80 @@ class TelegramBot:
                 "What task should the blog article fulfil? "
                 "Please describe it in a short sentence."
             )
-            await message.reply_text(
+            sent = await message.reply_text(
                 text, reply_markup=self.build_navigation_keyboard()
             )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.WEBSITE:
-
             text = (
                 "Do you have a website with information that should be included?\n"
                 "If yes, please send the URL.\n"
                 "If not, tap the button below or type 'no'."
             )
-            await message.reply_text(text, reply_markup=self.build_website_keyboard())
+            sent = await message.reply_text(
+                text, reply_markup=self.build_website_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.DOCUMENT:
-
             text = (
                 "Do you have a *document* (PDF, DOCX, TXT) with information to include?\n"
                 "If yes, upload it now.\n"
                 "If not, tap the button below or type 'no'."
             )
-            await message.reply_text(text, reply_markup=self.build_document_keyboard())
+            sent = await message.reply_text(
+                text, reply_markup=self.build_document_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.LENGTH:
             text = "How long should the blog article be? Choose one of the options below 👇"
-            await message.reply_text(text, reply_markup=self.build_length_keyboard())
+            sent = await message.reply_text(
+                text, reply_markup=self.build_length_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.LEVEL:
             text = "What *language level* should it be? 👇"
-            await message.reply_text(text, reply_markup=self.build_level_keyboard())
+            sent = await message.reply_text(
+                text, reply_markup=self.build_level_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.INFO:
             text = "What *information level* should it be? 👇"
-            await message.reply_text(text, reply_markup=self.build_info_keyboard())
+            sent = await message.reply_text(
+                text, reply_markup=self.build_info_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.LANGUAGE:
             text = (
                 "What *language* should the article be in? 🌍\n"
                 "(e.g. English, German, Spanish)"
             )
-            await message.reply_text(
+            sent = await message.reply_text(
                 text, reply_markup=self.build_navigation_keyboard()
             )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.TONE:
             text = "What *tone* should the article have? 🎨"
-            await message.reply_text(text, reply_markup=self.build_tone_keyboard())
+            sent = await message.reply_text(
+                text, reply_markup=self.build_tone_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.ADDITIONAL:
-
             text = (
                 "Do you have any *additional information* you want to include?\n"
                 "If not, tap the button below or type 'no'."
             )
-            await message.reply_text(
+            sent = await message.reply_text(
                 text, reply_markup=self.build_additional_keyboard()
             )
+            self.set_last_wizard_message(context, sent)
 
         elif state == S.CONFIRM:
             user_data = context.user_data
@@ -329,7 +372,10 @@ class TelegramBot:
                 f"- Additional Information: {user_data.get('additional_information')}\n\n"
                 "If everything looks good, confirm to start generation."
             )
-            await message.reply_text(text, reply_markup=self.build_confirm_keyboard())
+            sent = await message.reply_text(
+                text, reply_markup=self.build_confirm_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
 
         else:
             await message.reply_text("Unknown state. Please /start again.")
@@ -456,10 +502,14 @@ class TelegramBot:
     async def start_configuration_button(
         self, update: Update, context: CallbackContext
     ):
-
         query = update.callback_query
         await query.answer()
         self.logger.debug("start_configuration_button: pressed.")
+
+        await query.edit_message_text(
+            "Great, let's configure your blog article! ✍️\n\n"
+            "I'll guide you through a few steps. You can always go back or restart using the navigation buttons."
+        )
 
         return await self.start_configuration_entry(update, context)
 
@@ -552,7 +602,6 @@ class TelegramBot:
         return int(S.TOPIC_OR_TASK)
 
     async def topic_or_task(self, update: Update, context: CallbackContext) -> int:
-
         text = (update.message.text or "").strip().lower()
         self.logger.debug(f"topic_or_task {text}")
 
@@ -573,19 +622,25 @@ class TelegramBot:
     # Step: Topic / Task
 
     async def topic(self, update: Update, context: CallbackContext) -> int:
-        """Saves the topic in the user data"""
-        text = update.message.text
+        """Saves the topic in the user data."""
+        text = (update.message.text or "").strip()
         self.logger.debug(f"topic: {text}")
         context.user_data["topic"] = text
+
+        await self.clear_last_wizard_keyboard(context)
+
         return await self.go_to_state(
             update, context, from_state=S.TOPIC, to_state=S.WEBSITE
         )
 
     async def task(self, update: Update, context: CallbackContext) -> int:
-        """Saves the task in the user data"""
-        text = update.message.text
+        """Saves the task in the user data."""
+        text = (update.message.text or "").strip()
         self.logger.debug(f"task: {text}")
         context.user_data["topic"] = text
+
+        await self.clear_last_wizard_keyboard(context)
+
         return await self.go_to_state(
             update, context, from_state=S.TASK, to_state=S.WEBSITE
         )
@@ -593,12 +648,48 @@ class TelegramBot:
     # Step: Website
 
     async def website(self, update: Update, context: CallbackContext) -> int:
-        text = (update.message.text or "").strip()
+        """Processes website input or skip with 'no'."""
+        message = update.message
+
+        if message is None or (message.text or "").strip() == "":
+            await update.effective_chat.send_message(
+                "Please send a URL or type 'no' to skip this step."
+            )
+            return int(S.WEBSITE)
+
+        text = (message.text or "").strip()
         self.logger.debug(f"website: {text}")
 
-        if text.lower() != "no":
+        if text.lower() == "no":
+            self.logger.debug("website: user typed 'no'")
 
+            await self.clear_last_wizard_keyboard(context)
+
+            return await self.go_to_state(
+                update, context, from_state=S.WEBSITE, to_state=S.DOCUMENT
+            )
+
+        if not (text.startswith("http://") or text.startswith("https://")):
+            await message.reply_text(
+                "That doesn't look like a valid URL.\n"
+                "Please send a link starting with http:// or https://, or type 'no' to skip."
+            )
+            return int(S.WEBSITE)
+
+        try:
             self.addWebsite(text)
+            await message.reply_text(
+                "✅ Got your website. I'll use it as an information source."
+            )
+            self.logger.info(f"Website added as RAG source: {text}")
+        except Exception as e:
+            self.logger.exception(f"Error while adding website RAG tool: {e}")
+            await message.reply_text(
+                "⚠️ I couldn't process this website as a source.\n"
+                "I'll continue without it. You can still upload a document in the next step."
+            )
+
+        await self.clear_last_wizard_keyboard(context)
 
         return await self.go_to_state(
             update, context, from_state=S.WEBSITE, to_state=S.DOCUMENT
@@ -607,7 +698,7 @@ class TelegramBot:
     async def website_button(self, update: Update, context: CallbackContext) -> int:
         query = update.callback_query
         await query.answer()
-        self.logger.debug("website_no_button: user chose 'No website'")
+        self.logger.debug("website_button: user chose 'No website'")
 
         base_question = (
             "Do you have a website with information that should be included?\n"
@@ -624,21 +715,31 @@ class TelegramBot:
     # Step: Document
 
     async def document(self, update: Update, context: CallbackContext) -> int:
-        """processes document input or skip with 'no'"""
+        """Processes document upload or skip with 'no'."""
         message = update.message
-        text = (message.text or "").strip() if message.text else None
-        document = message.document
+        text = (message.text or "").strip() if message and message.text else None
+        document = message.document if message else None
 
         if text is not None and text.lower() == "no" and document is None:
             self.logger.debug("document: user typed 'no'")
+
+            await self.clear_last_wizard_keyboard(context)
+
             return await self.go_to_state(
                 update, context, from_state=S.DOCUMENT, to_state=S.LENGTH
             )
+
+        if document is None and (text is None or text == ""):
+            await message.reply_text(
+                "Please upload a document (PDF, DOCX, TXT) or type 'no' to skip this step."
+            )
+            return int(S.DOCUMENT)
 
         if document:
             self.logger.debug(
                 f"document: received document {document.file_name} ({document.mime_type})"
             )
+
             if document.mime_type not in self.VALID_MIME_TYPES:
                 await message.reply_text(
                     f"Unsupported file type: {document.mime_type}.\n"
@@ -647,19 +748,48 @@ class TelegramBot:
                 return int(S.DOCUMENT)
 
             base_dir = os.path.dirname(__file__)
-            file_path = os.path.join(base_dir, "documents", document.file_name)
-            file = await context.bot.get_file(document.file_id)
-            await file.download_to_drive(file_path)
+            documents_dir = os.path.join(base_dir, "documents")
+            os.makedirs(documents_dir, exist_ok=True)
 
-            if document.mime_type == "application/pdf":
-                self.addPDF(file_path)
-            elif (
-                document.mime_type
-                == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            ):
-                self.addDOCX(file_path)
-            elif document.mime_type == "text/plain":
-                self.addTxt(file_path)
+            file_path = os.path.join(documents_dir, document.file_name)
+
+            try:
+                file = await context.bot.get_file(document.file_id)
+                await file.download_to_drive(file_path)
+                self.logger.info(f"Document saved to {file_path}")
+            except Exception as e:
+                self.logger.exception(f"Error downloading document: {e}")
+                await message.reply_text(
+                    "⚠️ I couldn't download your document.\n"
+                    "Please try again, or type 'no' to skip this step."
+                )
+                return int(S.DOCUMENT)
+
+            try:
+                if document.mime_type == "application/pdf":
+                    self.addPDF(file_path)
+                elif (
+                    document.mime_type
+                    == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                ):
+                    self.addDOCX(file_path)
+                elif document.mime_type == "text/plain":
+                    self.addTxt(file_path)
+
+                await message.reply_text(
+                    "✅ Got your document. I'll use it as an information source."
+                )
+                self.logger.info(
+                    f"Document added as RAG source: {document.file_name} ({document.mime_type})"
+                )
+            except Exception as e:
+                self.logger.exception(f"Error while adding document RAG tool: {e}")
+                await message.reply_text(
+                    "⚠️ I couldn't process this document as a source.\n"
+                    "I'll continue without it."
+                )
+
+        await self.clear_last_wizard_keyboard(context)
 
         return await self.go_to_state(
             update, context, from_state=S.DOCUMENT, to_state=S.LENGTH
@@ -770,9 +900,11 @@ class TelegramBot:
     # Step: Language
 
     async def language(self, update: Update, context: CallbackContext) -> int:
-        text = update.message.text
+        """Saves the language in the user data."""
+        text = (update.message.text or "").strip()
         self.logger.debug(f"language: {text}")
         context.user_data["language"] = text
+        await self.clear_last_wizard_keyboard(context)
         return await self.go_to_state(
             update, context, from_state=S.LANGUAGE, to_state=S.TONE
         )
@@ -807,6 +939,7 @@ class TelegramBot:
     # Step: Additional Information
 
     async def additional(self, update: Update, context: CallbackContext) -> int:
+        """Processes additional text-info or 'no'."""
         text = (update.message.text or "").strip()
         self.logger.debug(f"additional: {text}")
 
@@ -814,6 +947,8 @@ class TelegramBot:
             context.user_data["additional_information"] = ""
         else:
             context.user_data["additional_information"] = text
+
+        await self.clear_last_wizard_keyboard(context)
 
         return await self.go_to_state(
             update, context, from_state=S.ADDITIONAL, to_state=S.CONFIRM
@@ -850,39 +985,51 @@ class TelegramBot:
         _, action = data.split(":", 1)
         self.logger.debug(f"confirm_button: action={action}")
 
-        if action == "confirm":
-            await query.message.reply_text("Generating your article, please wait... ✅")
+        if action != "confirm":
+            await query.message.reply_text(
+                "Please use the Confirm button to start the generation."
+            )
+            return int(S.CONFIRM)
 
-            inputs = {
-                "topic": context.user_data.get("topic"),
-                "length": context.user_data.get("length"),
-                "language_level": context.user_data.get("language_level"),
-                "information_level": context.user_data.get("information"),
-                "language": context.user_data.get("language"),
-                "tone": context.user_data.get("tone"),
-                "additional_information": context.user_data.get(
-                    "additional_information"
-                ),
-                "history": context.user_data.get("history", []),
-            }
-
-            try:
-                bot = BaRagmasChatbot(self.tools)
-                result = bot.crew().kickoff(inputs=inputs)
-                await query.message.reply_text(str(result))
-                self.logger.debug("confirm_button: Crew run successful.")
-            except Exception as e:
-                self.logger.error(f"confirm_button: crew error {e}", exc_info=True)
-                await query.message.reply_text(
-                    "❌ An error occurred during article generation. Please try again."
-                )
-
-            return ConversationHandler.END
-
-        await query.message.reply_text(
-            "Unknown confirm action. Please use the buttons again."
+        user_data = context.user_data
+        summary_text = (
+            "Thanks! Here's your configuration:\n\n"
+            f"- Topic or Task: {user_data.get('topic')}\n"
+            f"- Length: {user_data.get('length')}\n"
+            f"- Language Level: {user_data.get('language_level')}\n"
+            f"- Information Level: {user_data.get('information')}\n"
+            f"- Language: {user_data.get('language')}\n"
+            f"- Tone: {user_data.get('tone')}\n"
+            f"- Additional Information: {user_data.get('additional_information')}\n\n"
+            "✅ Selected: Confirm"
         )
-        return int(S.CONFIRM)
+
+        await query.edit_message_text(summary_text)
+        await query.message.reply_text("Generating your article, please wait... ✅")
+
+        inputs = {
+            "topic": user_data.get("topic"),
+            "length": user_data.get("length"),
+            "language_level": user_data.get("language_level"),
+            "information_level": user_data.get("information"),
+            "language": user_data.get("language"),
+            "tone": user_data.get("tone"),
+            "additional_information": user_data.get("additional_information"),
+            "history": user_data.get("history", []),
+        }
+
+        try:
+            bot = BaRagmasChatbot(self.tools)
+            result = bot.crew().kickoff(inputs=inputs)
+            await query.message.reply_text(str(result))
+            self.logger.debug("confirm_button: Crew run successful.")
+        except Exception as e:
+            self.logger.exception(f"confirm_button: error during crew run: {e}")
+            await query.message.reply_text(
+                "⚠️ An error occurred while generating the article. Please try again."
+            )
+
+        return ConversationHandler.END
 
     async def confirm(self, update: Update, context: CallbackContext) -> int:
         text = (update.message.text or "").strip().lower()
