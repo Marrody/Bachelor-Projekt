@@ -5,14 +5,20 @@ description = "BA_RAGMAS_chatbot using crewAI"
 authors = [{ name = "Anna Hansl", email = "anna.hansl@univie.ac.at" }]
 requires-python = ">=3.10,<=3.13"
 dependencies = [
-    "crewai[tools]>=0.86.0,<1.0.0",
-    "langchain>=0.3.11",
-    "langchain-ollama>=0.2.1",
-    "ollama>=0.4.4",
-    "pytest>=8.3.4",
-    "pytest-asyncio>=0.25.1",
-    "python-telegram-bot>=21.9",
-    "transformers>=4.47.1",
+  "crewai[tools]==0.86.0",
+  "crewai-tools==0.17.0",
+  "chromadb==0.5.20",
+  "pydantic==2.10.3",
+  "openai==1.57.4",
+  "litellm==1.55.2",
+
+  "langchain==0.3.11",
+  "langchain-ollama==0.2.1",
+  "ollama==0.4.4",
+  "pytest==8.3.4",
+  "pytest-asyncio==0.25.1",
+  "python-telegram-bot==21.9",
+  "transformers==4.47.1",
 ]
 
 [project.scripts]
