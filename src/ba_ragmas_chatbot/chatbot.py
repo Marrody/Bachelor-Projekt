@@ -259,6 +259,8 @@ class TelegramBot:
 
         if state == S.TOPIC_OR_TASK:
             text = (
+                "🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
+                "Topic or Task\n\n"
                 "Let's configure your blog article! ✍️\n\n"
                 "First, do you already have a *topic* or rather a *task* "
                 "the article should fulfil?"
@@ -270,6 +272,7 @@ class TelegramBot:
 
         elif state == S.TOPIC:
             text = (
+                "🔵🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
                 "Great, you've chosen *Topic*! 📝\n\n"
                 "What topic should the blog article be about?"
             )
@@ -280,6 +283,7 @@ class TelegramBot:
 
         elif state == S.TASK:
             text = (
+                "🔵🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
                 "Great, you've chosen *Task*! 🎯\n\n"
                 "What task should the blog article fulfil? "
                 "Please describe it in a short sentence."
@@ -291,6 +295,7 @@ class TelegramBot:
 
         elif state == S.WEBSITE:
             text = (
+                "🔵🔵🔵⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
                 "Do you have a website with information that should be included?\n"
                 "If yes, please send the URL.\n"
                 "If not, tap the button below or type 'no'."
@@ -302,6 +307,7 @@ class TelegramBot:
 
         elif state == S.DOCUMENT:
             text = (
+                "🔵🔵🔵🔵⚪⚪⚪⚪⚪⚪⚪\n\n"
                 "Do you have a *document* (PDF, DOCX, TXT) with information to include?\n"
                 "If yes, upload it now.\n"
                 "If not, tap the button below or type 'no'."
@@ -312,21 +318,26 @@ class TelegramBot:
             self.set_last_wizard_message(context, sent)
 
         elif state == S.LENGTH:
-            text = "How long should the blog article be? Choose one of the options below 👇"
+            text = (
+                "🔵🔵🔵🔵🔵⚪⚪⚪⚪⚪⚪\n\n"
+                "How long should the blog article be? Choose one of the options below 👇"
+            )
             sent = await message.reply_text(
                 text, reply_markup=self.build_length_keyboard()
             )
             self.set_last_wizard_message(context, sent)
 
         elif state == S.LEVEL:
-            text = "What *language level* should it be? 👇"
+            text = "🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪⚪\n\n" "What *language level* should it be? 👇"
             sent = await message.reply_text(
                 text, reply_markup=self.build_level_keyboard()
             )
             self.set_last_wizard_message(context, sent)
 
         elif state == S.INFO:
-            text = "What *information level* should it be? 👇"
+            text = (
+                "🔵🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪\n\n" "What *information level* should it be? 👇"
+            )
             sent = await message.reply_text(
                 text, reply_markup=self.build_info_keyboard()
             )
@@ -334,6 +345,7 @@ class TelegramBot:
 
         elif state == S.LANGUAGE:
             text = (
+                "🔵🔵🔵🔵🔵🔵🔵🔵⚪⚪⚪\n\n"
                 "What *language* should the article be in? 🌍\n"
                 "(e.g. English, German, Spanish)"
             )
@@ -343,7 +355,9 @@ class TelegramBot:
             self.set_last_wizard_message(context, sent)
 
         elif state == S.TONE:
-            text = "What *tone* should the article have? 🎨"
+            text = (
+                "🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪⚪\n\n" "What *tone* should the article have? 🎨"
+            )
             sent = await message.reply_text(
                 text, reply_markup=self.build_tone_keyboard()
             )
@@ -351,6 +365,7 @@ class TelegramBot:
 
         elif state == S.ADDITIONAL:
             text = (
+                "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪\n\n"
                 "Do you have any *additional information* you want to include?\n"
                 "If not, tap the button below or type 'no'."
             )
@@ -362,6 +377,7 @@ class TelegramBot:
         elif state == S.CONFIRM:
             user_data = context.user_data
             text = (
+                "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵\n\n"
                 "Thanks! Here's your configuration:\n\n"
                 f"- Topic or Task: {user_data.get('topic')}\n"
                 f"- Length: {user_data.get('length')}\n"
@@ -578,6 +594,7 @@ class TelegramBot:
         self.logger.debug(f"topic_or_task_button: choice={choice}")
 
         base_question = (
+            "🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
             "Let's configure your blog article! ✍️\n\n"
             "First, do you already have a *topic* or rather a *task* "
             "the article should fulfil?"
@@ -701,6 +718,7 @@ class TelegramBot:
         self.logger.debug("website_button: user chose 'No website'")
 
         base_question = (
+            "🔵🔵🔵⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
             "Do you have a website with information that should be included?\n"
             "If yes, please send the URL.\n"
             "If not, tap the button below or type 'no'."
@@ -801,6 +819,7 @@ class TelegramBot:
         self.logger.debug("no_document_button: user chose 'No document'")
 
         base_question = (
+            "🔵🔵🔵🔵⚪⚪⚪⚪⚪⚪⚪\n\n"
             "Do you have a *document* (PDF, DOCX, TXT) with information to include?\n"
             "If yes, upload it now.\n"
             "If not, tap the button below or type 'no'."
@@ -823,6 +842,7 @@ class TelegramBot:
         context.user_data["length"] = value
 
         question_text = (
+            "🔵🔵🔵🔵🔵⚪⚪⚪⚪⚪⚪\n\n"
             "How long should the blog article be? Choose one of the options below 👇"
         )
         await query.edit_message_text(
@@ -853,7 +873,9 @@ class TelegramBot:
         self.logger.debug(f"language_level_button: {value}")
         context.user_data["language_level"] = value
 
-        question_text = "What *language level* should it be? 👇"
+        question_text = (
+            "🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪⚪\n\n" "What *language level* should it be? 👇"
+        )
         await query.edit_message_text(
             f"{question_text}\n\n✅ Selected: {value.capitalize()}"
         )
@@ -880,7 +902,9 @@ class TelegramBot:
         self.logger.debug(f"info_level_button: {value}")
         context.user_data["information"] = value
 
-        question_text = "What *information level* should it be? 👇"
+        question_text = (
+            "🔵🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪\n\n" "What *information level* should it be? 👇"
+        )
         await query.edit_message_text(
             f"{question_text}\n\n✅ Selected: {value.capitalize()}"
         )
@@ -919,7 +943,9 @@ class TelegramBot:
         self.logger.debug(f"tone_button: {value}")
         context.user_data["tone"] = value
 
-        question_text = "What *tone* should the article have? 🎨"
+        question_text = (
+            "🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪⚪\n\nWhat *tone* should the article have? 🎨"
+        )
         await query.edit_message_text(
             f"{question_text}\n\n✅ Selected: {value.capitalize()}"
         )
@@ -964,6 +990,7 @@ class TelegramBot:
         context.user_data["additional_information"] = ""
 
         base_question = (
+            "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪\n\n"
             "Do you have any *additional information* you want to include?\n"
             "If not, tap the button below or type 'no'."
         )
@@ -993,6 +1020,7 @@ class TelegramBot:
 
         user_data = context.user_data
         summary_text = (
+            "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵\n\n"
             "Thanks! Here's your configuration:\n\n"
             f"- Topic or Task: {user_data.get('topic')}\n"
             f"- Length: {user_data.get('length')}\n"
