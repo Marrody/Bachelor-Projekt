@@ -16,6 +16,7 @@ class S(IntEnum):
     TONE = 9
     ADDITIONAL = 10
     CONFIRM = 11
+    FREE_CHAT = 99
 
 
 __all__ = [

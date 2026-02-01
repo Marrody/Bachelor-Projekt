@@ -57,8 +57,6 @@ class TelegramBot:
     ai = OllamaLLM(model=llm_name)
     logger = logger_config.get_logger("telegram bot")
 
-    # Utility – clear db
-
     def clear_db(self):
         """Deletes all database files related to ChromaDB."""
         db_folder = "./db"
@@ -66,24 +64,36 @@ class TelegramBot:
             shutil.rmtree(db_folder)
         os.makedirs(db_folder)
 
-    # Helper – navigation + keyboards
+    # navigation + keyboards
 
-    def build_navigation(self) -> InlineKeyboardMarkup:
-
+    def build_navigation(self):
         return [
-            InlineKeyboardButton("🔁 Restart", callback_data="nav_restart"),
-            InlineKeyboardButton("⬅️ Back", callback_data="nav_back"),
+            [
+                InlineKeyboardButton(
+                    "💬 Free Chat (Pause)", callback_data="nav_free_chat"
+                )
+            ],
+            [
+                InlineKeyboardButton("🔁 Restart", callback_data="nav_restart"),
+                InlineKeyboardButton("⬅️ Back", callback_data="nav_back"),
+            ],
+        ]
+
+    def build_chat_navigation(self):
+        return [
+            [
+                InlineKeyboardButton("🔁 Restart Wizard", callback_data="nav_restart"),
+                InlineKeyboardButton("⬅️ Back to Wizard", callback_data="nav_back"),
+            ]
         ]
 
     def build_topic_or_task_keyboard(self) -> InlineKeyboardMarkup:
-
         keyboard = [
             [
                 InlineKeyboardButton("📝 Topic", callback_data="topic_or_task:topic"),
                 InlineKeyboardButton("🎯 Task", callback_data="topic_or_task:task"),
             ],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_length_keyboard(self) -> InlineKeyboardMarkup:
@@ -93,8 +103,7 @@ class TelegramBot:
                 InlineKeyboardButton("📖 Medium", callback_data="length:medium"),
                 InlineKeyboardButton("📚 Long", callback_data="length:long"),
             ],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_level_keyboard(self) -> InlineKeyboardMarkup:
@@ -106,8 +115,7 @@ class TelegramBot:
                 ),
                 InlineKeyboardButton("🎓 Advanced", callback_data="level:advanced"),
             ],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_info_keyboard(self) -> InlineKeyboardMarkup:
@@ -117,8 +125,7 @@ class TelegramBot:
                 InlineKeyboardButton("🌊 Medium", callback_data="info:medium"),
                 InlineKeyboardButton("🌊🌊 High", callback_data="info:high"),
             ],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_tone_keyboard(self) -> InlineKeyboardMarkup:
@@ -130,15 +137,13 @@ class TelegramBot:
                 InlineKeyboardButton("😎 Casual", callback_data="tone:casual"),
                 InlineKeyboardButton("😄 Friendly", callback_data="tone:friendly"),
             ],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_confirm_keyboard(self) -> InlineKeyboardMarkup:
         keyboard = [
             [InlineKeyboardButton("✅ Confirm", callback_data="confirm:confirm")],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_start_configuration_keyboard(self) -> InlineKeyboardMarkup:
@@ -152,23 +157,18 @@ class TelegramBot:
         return InlineKeyboardMarkup(keyboard)
 
     def build_navigation_keyboard(self) -> InlineKeyboardMarkup:
-        keyboard = [
-            self.build_navigation(),
-        ]
-        return InlineKeyboardMarkup(keyboard)
+        return InlineKeyboardMarkup(self.build_navigation())
 
     def build_website_keyboard(self) -> InlineKeyboardMarkup:
         keyboard = [
             [InlineKeyboardButton("🚫 No website", callback_data="website:no")],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_document_keyboard(self) -> InlineKeyboardMarkup:
         keyboard = [
             [InlineKeyboardButton("🚫 No document", callback_data="document:no")],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     def build_additional_keyboard(self) -> InlineKeyboardMarkup:
@@ -178,8 +178,7 @@ class TelegramBot:
                     "🚫 No additional info", callback_data="additional:no"
                 )
             ],
-            self.build_navigation(),
-        ]
+        ] + self.build_navigation()
         return InlineKeyboardMarkup(keyboard)
 
     # Helper
@@ -254,7 +253,6 @@ class TelegramBot:
     async def ask_state_question(
         self, update: Update, context: CallbackContext, state: S
     ) -> None:
-        """State-Handler: Asks the question for the given state and saves the message."""
         message = update.effective_message
 
         if state == S.TOPIC_OR_TASK:
@@ -262,10 +260,10 @@ class TelegramBot:
                 "🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
                 "Topic or Task\n\n"
                 "Let's configure your blog article! ✍️\n\n"
-                "First, do you already have a *topic* or rather a *task* "
+                "First, do you already have a <b>TOPIC</b> or rather a <b>TASK</b> "
                 "the article should fulfil?"
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_topic_or_task_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -273,10 +271,10 @@ class TelegramBot:
         elif state == S.TOPIC:
             text = (
                 "🔵🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
-                "Great, you've chosen *Topic*! 📝\n\n"
+                "Great, you've chosen <b>TOPIC</b>! 📝\n\n"
                 "What topic should the blog article be about?"
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_navigation_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -284,11 +282,11 @@ class TelegramBot:
         elif state == S.TASK:
             text = (
                 "🔵🔵⚪⚪⚪⚪⚪⚪⚪⚪⚪\n\n"
-                "Great, you've chosen *Task*! 🎯\n\n"
+                "Great, you've chosen <b>TOPIC</b>! 🎯\n\n"
                 "What task should the blog article fulfil? "
                 "Please describe it in a short sentence."
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_navigation_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -300,7 +298,7 @@ class TelegramBot:
                 "If yes, please send the URL.\n"
                 "If not, tap the button below or type 'no'."
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_website_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -308,11 +306,11 @@ class TelegramBot:
         elif state == S.DOCUMENT:
             text = (
                 "🔵🔵🔵🔵⚪⚪⚪⚪⚪⚪⚪\n\n"
-                "Do you have a *document* (PDF, DOCX, TXT) with information to include?\n"
+                "Do you have a <b>DOCUMENT</b> (PDF, DOCX, TXT) with information to include?\n"
                 "If yes, upload it now.\n"
                 "If not, tap the button below or type 'no'."
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_document_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -322,23 +320,27 @@ class TelegramBot:
                 "🔵🔵🔵🔵🔵⚪⚪⚪⚪⚪⚪\n\n"
                 "How long should the blog article be? Choose one of the options below 👇"
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_length_keyboard()
             )
             self.set_last_wizard_message(context, sent)
 
         elif state == S.LEVEL:
-            text = "🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪⚪\n\n" "What *language level* should it be? 👇"
-            sent = await message.reply_text(
+            text = (
+                "🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪⚪\n\n"
+                "What <b>LANGUAGE LEVEL</b> should it be? 👇"
+            )
+            sent = await message.reply_html(
                 text, reply_markup=self.build_level_keyboard()
             )
             self.set_last_wizard_message(context, sent)
 
         elif state == S.INFO:
             text = (
-                "🔵🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪\n\n" "What *information level* should it be? 👇"
+                "🔵🔵🔵🔵🔵🔵🔵⚪⚪⚪⚪\n\n"
+                "What <b>INFORMATION LEVEL</b> should it be? 👇"
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_info_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -346,19 +348,20 @@ class TelegramBot:
         elif state == S.LANGUAGE:
             text = (
                 "🔵🔵🔵🔵🔵🔵🔵🔵⚪⚪⚪\n\n"
-                "What *language* should the article be in? 🌍\n"
+                "What <b>LANGUAGE</b> should the article be in? 🌍\n"
                 "(e.g. English, German, Spanish)"
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_navigation_keyboard()
             )
             self.set_last_wizard_message(context, sent)
 
         elif state == S.TONE:
             text = (
-                "🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪⚪\n\n" "What *tone* should the article have? 🎨"
+                "🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪⚪\n\n"
+                "What <b>TONE</b> should the article have? 🎨"
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_tone_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -366,10 +369,10 @@ class TelegramBot:
         elif state == S.ADDITIONAL:
             text = (
                 "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪\n\n"
-                "Do you have any *additional information* you want to include?\n"
+                "Do you have any <b>ADDITIONAL INFORMATION</b> you want to include?\n"
                 "If not, tap the button below or type 'no'."
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_additional_keyboard()
             )
             self.set_last_wizard_message(context, sent)
@@ -388,8 +391,20 @@ class TelegramBot:
                 f"- Additional Information: {user_data.get('additional_information')}\n\n"
                 "If everything looks good, confirm to start generation."
             )
-            sent = await message.reply_text(
+            sent = await message.reply_html(
                 text, reply_markup=self.build_confirm_keyboard()
+            )
+            self.set_last_wizard_message(context, sent)
+
+        elif state == S.FREE_CHAT:
+            text = (
+                "💬 <b>Free Chat Mode</b>\n\n"
+                "You paused the wizard to chat freely, to e.g. brainstorn, ask questions, or check RAG-Infos.\n\n"
+                "Press <b>BACK TO WIZARD</b> to return to the last step."
+            )
+
+            sent = await message.reply_html(
+                text, reply_markup=InlineKeyboardMarkup(self.build_chat_navigation())
             )
             self.set_last_wizard_message(context, sent)
 
@@ -410,7 +425,7 @@ class TelegramBot:
         await self.ask_state_question(update, context, to_state)
         return int(to_state)
 
-    # Chat / Commands
+    # Chat
 
     async def chat(self, update: Update, context: CallbackContext):
         """Free LLM Chat"""
@@ -439,7 +454,7 @@ class TelegramBot:
             await update.message.reply_text(f"chat: An error occurred: {str(e)}")
             return self.CHAT
 
-    # /start – introduction
+    # introduction
 
     async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Entry: Explains bot and navigation."""
@@ -452,16 +467,17 @@ class TelegramBot:
             )
             text = (
                 f"Hi {user.mention_html()}! 👋\n\n"
-                "I'm a chatbot for creating blog articles using RAG and Multi-Agent Systems.\n\n"
-                "We'll go through a short wizard where you configure:\n"
-                "• Topic or Task\n"
-                "• Sources (Websites / Documents)\n"
-                "• Length, language level, info level\n"
-                "• Language, tone, additional information\n\n"
-                "At any time you can use:\n"
-                "🔁 Restart – to reset the wizard and start from the beginning\n"
-                "⬅️ Back – to go one step back and adjust your previous answer\n\n"
-                "Ready? Start the configuration below 👇"
+                "I'm your personal <b>AI Editorial Team</b>, powered by RAG and Multi-Agent Systems. 🤖✍️\n\n"
+                "I'll guide you through a wizard to create high-quality blog articles:\n"
+                "• <b>Content:</b> Define a Topic or specific Task\n"
+                "• <b>Knowledge:</b> Add Sources (Websites 🔗 / Documents 📄)\n"
+                "• <b>Style:</b> Set Length, Tone, Language & Information Level\n\n"
+                "<b>🚀 Navigation Features:</b>\n"
+                "You can control the process at any time:\n\n"
+                "💬 <b>Free Chat (Pause)</b> - Switch to chat mode to brainstorm ideas or verify your uploaded documents. I'll keep the context for the article!\n"
+                "⬅️ <b>Back</b> - Go one step back to adjust your previous answer\n"
+                "🔁 <b>Restart</b> - Reset the wizard and start from scratch\n\n"
+                "Ready to create content? Start the configuration below 👇"
             )
             await message.reply_html(
                 text,
@@ -473,29 +489,6 @@ class TelegramBot:
         except Exception as e:
             await update.effective_message.reply_text(f"An error occurred: {str(e)}")
             self.logger.error(f"start: exception {str(e)}")
-            return self.CHAT
-
-    # /help – deprecated
-
-    async def help(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        try:
-            message = update.effective_message
-            text = (
-                "Help – RAG-MAS Blog Article Wizard 🤖\n\n"
-                "Commands:\n"
-                "• /start – Show introduction and start button\n"
-                "• /chat – Free chat with the LLM\n\n"
-                "During configuration you can always use:\n"
-                "🔁 Restart – reset wizard and start from the beginning\n"
-                "⬅️ Back – go one step back\n"
-            )
-            await message.reply_text(text)
-            self.logger.debug("help: sent.")
-            return self.CHAT
-
-        except Exception as e:
-            await update.effective_message.reply_text(f"An error occurred: {str(e)}")
-            self.logger.error(f"help: exception {str(e)}")
             return self.CHAT
 
     # start for wizard
@@ -529,10 +522,10 @@ class TelegramBot:
 
         return await self.start_configuration_entry(update, context)
 
-    # Navigation: Restart & Back
+    # Navigation: Restart / Back / Free Chat
 
     async def handle_navigation(self, update: Update, context: CallbackContext) -> int:
-        """handles navigation with 'restart' & 'back'"""
+        """handles navigation with 'restart' & 'back' & 'chat'"""
         query = update.callback_query
         data = query.data
         await query.answer()
@@ -546,23 +539,28 @@ class TelegramBot:
         )
 
         if data == "nav_restart":
-
             self.reset_wizard_data(context)
             await query.message.reply_text("Wizard restarted. 🔁")
             await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
             return int(S.TOPIC_OR_TASK)
 
+        if data == "nav_free_chat":
+            self.logger.info("Switching to Free Chat mode via Navigation.")
+            return await self.go_to_state(
+                update, context, from_state=current_state, to_state=S.FREE_CHAT
+            )
+
         if data == "nav_back":
             stack = user_data.get("state_stack", [])
             if not stack:
-
                 self.logger.debug("handle_navigation: back at first state.")
                 user_data["current_state"] = int(S.TOPIC_OR_TASK)
                 await query.message.reply_text("You are already at the first step.")
                 await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
                 return int(S.TOPIC_OR_TASK)
 
-            self.clear_state_data(context, current_state)
+            if current_state != S.FREE_CHAT:
+                self.clear_state_data(context, current_state)
 
             prev_state_val = stack.pop()
             prev_state = S(prev_state_val)
@@ -572,13 +570,16 @@ class TelegramBot:
             self.logger.debug(
                 f"handle_navigation: going back from {current_state} to {prev_state}"
             )
-            await query.message.reply_text("Going back one step. ⬅️")
+
+            if current_state == S.FREE_CHAT:
+                await query.message.reply_text("Leaving Chat. Back to Wizard. ⬅️")
+            else:
+                await query.message.reply_text("Going back one step. ⬅️")
+
             await self.ask_state_question(update, context, prev_state)
             return int(prev_state)
 
-        await query.message.reply_text(
-            "Unknown navigation action. Please use the wizard buttons again."
-        )
+        await query.message.reply_text("Unknown navigation action.")
         return current_state_val
 
     # Step: Topic or Task
@@ -1110,6 +1111,36 @@ class TelegramBot:
         )
         return int(S.CONFIRM)
 
+    async def free_chat_state(self, update: Update, context: CallbackContext) -> int:
+        """processes messages, while in 'free chat'-mode."""
+        user_text = update.message.text
+        self.logger.debug(f"free_chat_state: received '{user_text}'")
+
+        context.user_data["history"] = context.user_data.get("history", []) + [
+            user_text
+        ]
+
+        try:
+            history_str = "\n".join(context.user_data["history"])
+
+            await context.bot.send_chat_action(
+                chat_id=update.effective_chat.id, action="typing"
+            )
+
+            response = str(self.ai.invoke(history_str))
+            context.user_data["history"].append(response)
+
+            await update.message.reply_text(
+                response,
+                reply_markup=InlineKeyboardMarkup(self.build_chat_navigation()),
+            )
+
+        except Exception as e:
+            self.logger.error(f"free_chat_state error: {e}")
+            await update.message.reply_text(f"Error in chat: {e}")
+
+        return int(S.FREE_CHAT)
+
     # Start bot
 
     def start_bot(self) -> None:
@@ -1125,6 +1156,12 @@ class TelegramBot:
                 ),
             ],
             states={
+                S.FREE_CHAT: [
+                    CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
+                    MessageHandler(
+                        filters.TEXT & ~filters.COMMAND, self.free_chat_state
+                    ),
+                ],
                 S.TOPIC_OR_TASK: [
                     CallbackQueryHandler(self.handle_navigation, pattern="^nav_"),
                     CallbackQueryHandler(
@@ -1234,7 +1271,6 @@ class TelegramBot:
         )
 
         application.add_handler(CommandHandler("start", self.start))
-        application.add_handler(CommandHandler("help", self.help))
         application.add_handler(CommandHandler("chat", self.chat))
         application.add_handler(conv_handler)
         application.run_polling()

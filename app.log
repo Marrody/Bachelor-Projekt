@@ -453,3 +453,1470 @@ Traceback (most recent call last):
   File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 317, in do_request
     raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
 telegram.error.NetworkError: httpx.ReadError: 
+2026-01-28 00:01:54,092 - telegram bot - ERROR - Error while adding website RAG tool: 403 Client Error: Forbidden for url: https://www.bloomberg.com/news/articles/2026-01-26/rheinmetall-fruhe-wette-eines-investors-zahlt-sich-nun-massiv-aus
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 697, in website
+    self.addWebsite(text)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 1246, in addWebsite
+    WebsiteSearchTool(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai_tools\tools\website_search\website_search_tool.py", line 37, in __init__
+    self.add(website)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai_tools\tools\website_search\website_search_tool.py", line 47, in add
+    super().add(*args, **kwargs)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai_tools\tools\rag\rag_tool.py", line 59, in add
+    self.adapter.add(*args, **kwargs)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai_tools\adapters\embedchain_adapter.py", line 25, in add
+    self.embedchain_app.add(*args, **kwargs)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\embedchain\embedchain.py", line 192, in add
+    documents, metadatas, _ids, new_chunks = self._load_and_embed(
+                                             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\embedchain\embedchain.py", line 332, in _load_and_embed
+    embeddings_data = chunker.create_chunks(loader, src, app_id=app_id, config=add_config.chunker, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\embedchain\chunkers\base_chunker.py", line 40, in create_chunks
+    data_result = loader.load_data(src, **kwargs)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\embedchain\loaders\web_page.py", line 36, in load_data
+    response.raise_for_status()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.bloomberg.com/news/articles/2026-01-26/rheinmetall-fruhe-wette-eines-investors-zahlt-sich-nun-massiv-aus
+2026-01-28 19:40:23,639 - opentelemetry.trace - WARNING - Overriding of current TracerProvider is not allowed
+2026-01-28 19:53:21,287 - opentelemetry.sdk.trace.export - ERROR - Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1411, in getresponse
+    response.begin()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 324, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 285, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 707, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1249, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1105, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\util.py", line 39, in reraise
+    raise value
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 538, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 369, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\sdk\trace\export\__init__.py", line 360, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 189, in export
+    return self._export_serialized_spans(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 159, in _export_serialized_spans
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 133, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 713, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+2026-01-28 19:54:02,822 - opentelemetry.sdk.trace.export - ERROR - Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 730, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 909, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 469, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 513, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1046, in _create
+    self.do_handshake()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1317, in do_handshake
+    self._sslobj.do_handshake()
+TimeoutError: _ssl.c:983: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\util.py", line 39, in reraise
+    raise value
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 468, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 369, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\sdk\trace\export\__init__.py", line 360, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 189, in export
+    return self._export_serialized_spans(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 159, in _export_serialized_spans
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 133, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 713, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+2026-01-28 19:54:33,114 - opentelemetry.sdk.trace.export - ERROR - Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 730, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 909, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 469, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 513, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1046, in _create
+    self.do_handshake()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1317, in do_handshake
+    self._sslobj.do_handshake()
+TimeoutError: _ssl.c:983: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\util.py", line 39, in reraise
+    raise value
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 468, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 369, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\sdk\trace\export\__init__.py", line 360, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 189, in export
+    return self._export_serialized_spans(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 159, in _export_serialized_spans
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 133, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 713, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+2026-01-28 19:57:18,282 - telegram.ext.Updater - ERROR - Error while calling `get_updates` one more time to mark all fetched updates as read: %s. Suppressing error to ensure graceful shutdown. When polling for updates is restarted, updates may be fetched again. Please adjust timeouts via `ApplicationBuilder` or the parameter `get_updates_request` of `Bot`.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 72, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 377, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 136, in handle_async_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 293, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1585, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1674, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1702, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1739, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1776, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 376, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 89, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 432, in _get_updates_cleanup
+    await self.bot.get_updates(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 334, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 317, in do_request
+    raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
+telegram.error.NetworkError: httpx.ReadError: 
+2026-01-28 19:57:18,389 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 140, in _invoke_loop
+    formatted_answer = self._format_answer(answer)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 394, in _format_answer
+    return CrewAgentParser(agent=self.agent).parse(answer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\parser.py", line 100, in parse
+    raise OutputParserException(
+crewai.agents.parser.OutputParserException: I did it wrong. Invalid Format: I missed the 'Action:' after 'Thought:'. I will do right next, and don't use a tool I have already used.
+
+If you don't need to use any more tools, you must give your best complete final answer, make sure it satisfy the expect criteria, use the EXACT format below:
+
+Thought: I now can give a great answer
+Final Answer: my best complete final answer to the task.
+
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 671, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1248, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1259, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 157, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 182, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1325, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 844, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 158, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 1051, in confirm_button
+    result = bot.crew().kickoff(inputs=inputs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 553, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 660, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 758, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 192, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 250, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 345, in execute_task
+    result = self.agent_executor.invoke(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 102, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 184, in _invoke_loop
+    return self._invoke_loop(formatted_answer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 115, in _invoke_loop
+    answer = self.llm.call(
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 164, in call
+    response = litellm.completion(**params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 864, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\main.py", line 2673, in completion
+    generator = ollama.get_ollama_response(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\ollama\completion\handler.py", line 124, in get_ollama_response
+    response = requests.post(
+               ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1411, in getresponse
+    response.begin()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 324, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 285, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 707, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+2026-01-28 20:26:02,367 - telegram bot - ERROR - start_configuration_entry: error The parameter `inline_keyboard` should be a sequence of sequences of InlineKeyboardButtons
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 540, in start_configuration_entry
+    await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 285, in ask_state_question
+    text, reply_markup=self.build_topic_or_task_keyboard()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 103, in build_topic_or_task_keyboard
+    return InlineKeyboardMarkup(keyboard)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_inline\inlinekeyboardmarkup.py", line 80, in __init__
+    raise ValueError(
+ValueError: The parameter `inline_keyboard` should be a sequence of sequences of InlineKeyboardButtons
+2026-01-28 20:29:03,759 - telegram bot - ERROR - start_configuration_entry: error The parameter `inline_keyboard` should be a sequence of sequences of InlineKeyboardButtons
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 540, in start_configuration_entry
+    await self.ask_state_question(update, context, S.TOPIC_OR_TASK)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 285, in ask_state_question
+    text, reply_markup=self.build_topic_or_task_keyboard()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 103, in build_topic_or_task_keyboard
+    return InlineKeyboardMarkup(keyboard)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_inline\inlinekeyboardmarkup.py", line 80, in __init__
+    raise ValueError(
+ValueError: The parameter `inline_keyboard` should be a sequence of sequences of InlineKeyboardButtons
+2026-01-28 21:08:03,803 - opentelemetry.sdk.trace.export - ERROR - Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1411, in getresponse
+    response.begin()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 324, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 293, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1411, in getresponse
+    response.begin()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 324, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 293, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\sdk\trace\export\__init__.py", line 360, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 189, in export
+    return self._export_serialized_spans(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 159, in _export_serialized_spans
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 133, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 682, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2026-01-28 21:14:19,901 - opentelemetry.sdk.trace.export - ERROR - Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 1095, in _validate_conn
+    conn.connect()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 730, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 909, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 469, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\ssl_.py", line 513, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1046, in _create
+    self.do_handshake()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1317, in do_handshake
+    self._sslobj.do_handshake()
+TimeoutError: _ssl.c:983: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\util\util.py", line 39, in reraise
+    raise value
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 490, in _make_request
+    raise new_e
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 468, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 369, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\sdk\trace\export\__init__.py", line 360, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 189, in export
+    return self._export_serialized_spans(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 159, in _export_serialized_spans
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\opentelemetry\exporter\otlp\proto\http\trace_exporter\__init__.py", line 133, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 713, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='telemetry.crewai.com', port=4319): Read timed out. (read timeout=30)
+2026-01-28 21:21:02,946 - telegram.ext.Updater - ERROR - Error while calling `get_updates` one more time to mark all fetched updates as read: %s. Suppressing error to ensure graceful shutdown. When polling for updates is restarted, updates may be fetched again. Please adjust timeouts via `ApplicationBuilder` or the parameter `get_updates_request` of `Bot`.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 72, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 377, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 136, in handle_async_request
+    raise exc
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 293, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1585, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1674, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1702, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1739, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_client.py", line 1776, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 376, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(value)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\httpx\_transports\default.py", line 89, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 432, in _get_updates_cleanup
+    await self.bot.get_updates(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 334, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_httpxrequest.py", line 317, in do_request
+    raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
+telegram.error.NetworkError: httpx.ReadError: 
+2026-01-28 21:21:02,951 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 671, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1248, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1259, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 157, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 182, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1325, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 844, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 158, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 1089, in confirm_button
+    await query.message.reply_text(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 553, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 660, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 758, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 192, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 250, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 345, in execute_task
+    result = self.agent_executor.invoke(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 102, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 115, in _invoke_loop
+    answer = self.llm.call(
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 164, in call
+    response = litellm.completion(**params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 864, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\main.py", line 2673, in completion
+    generator = ollama.get_ollama_response(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\ollama\completion\handler.py", line 124, in get_ollama_response
+    response = requests.post(
+               ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1411, in getresponse
+    response.begin()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 324, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 285, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 707, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+2026-01-28 22:01:45,698 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:01:49,758 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:01:50,818 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:01:55,380 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:01:56,941 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:00,997 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:03,306 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:07,861 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:11,278 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:15,328 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:20,833 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:24,890 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-28 22:02:32,667 - telegram.ext.Application - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 750, in _network_loop_retry
+    if not await do_action():
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 744, in do_action
+    return action_cb_task.result()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_updater.py", line 371, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 650, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 4480, in get_updates
+    await self._post(
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\request\_baserequest.py", line 385, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-01-29 11:48:21,590 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 671, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1248, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1259, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 157, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 182, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1325, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 844, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 158, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 1084, in confirm_button
+    result = bot.crew().kickoff(inputs=inputs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 553, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 660, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 758, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 192, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 250, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 345, in execute_task
+    result = self.agent_executor.invoke(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 102, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 115, in _invoke_loop
+    answer = self.llm.call(
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 164, in call
+    response = litellm.completion(**params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 864, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\main.py", line 2673, in completion
+    generator = ollama.get_ollama_response(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\ollama\completion\handler.py", line 124, in get_ollama_response
+    response = requests.post(
+               ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1411, in getresponse
+    response.begin()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 324, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 285, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 707, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+2026-01-31 16:48:14,969 - telegram.ext.Application - CRITICAL - Fetching updates was aborted due to KeyboardInterrupt(). Suppressing exception to ensure graceful shutdown.
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 140, in _invoke_loop
+    formatted_answer = self._format_answer(answer)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 394, in _format_answer
+    return CrewAgentParser(agent=self.agent).parse(answer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\parser.py", line 100, in parse
+    raise OutputParserException(
+crewai.agents.parser.OutputParserException: I did it wrong. Invalid Format: I missed the 'Action:' after 'Thought:'. I will do right next, and don't use a tool I have already used.
+
+If you don't need to use any more tools, you must give your best complete final answer, make sure it satisfy the expect criteria, use the EXACT format below:
+
+Thought: I now can give a great answer
+Final Answer: my best complete final answer to the task.
+
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 671, in stop
+    self.__update_fetcher_task.result()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1248, in _update_fetcher
+    await self.__update_fetcher()
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1244, in __update_fetcher
+    await self.__process_update_wrapper(update)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1259, in __process_update_wrapper
+    await self._update_processor.process_update(update, self.process_update(update))
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 157, in process_update
+    await self.do_process_update(update, coroutine)
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_baseupdateprocessor.py", line 182, in do_process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_application.py", line 1325, in process_update
+    await coroutine
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\conversationhandler.py", line 844, in handle_update
+    new_state: object = await handler.handle_update(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\telegram\ext\_handlers\basehandler.py", line 158, in handle_update
+    return await self.callback(update, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\src\ba_ragmas_chatbot\chatbot.py", line 1057, in confirm_button
+    result = bot.crew().kickoff(inputs=inputs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 553, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 660, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\crew.py", line 758, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 192, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\task.py", line 250, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agent.py", line 345, in execute_task
+    result = self.agent_executor.invoke(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 102, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 184, in _invoke_loop
+    return self._invoke_loop(formatted_answer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 115, in _invoke_loop
+    answer = self.llm.call(
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\crewai\llm.py", line 164, in call
+    response = litellm.completion(**params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\utils.py", line 864, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\main.py", line 2673, in completion
+    generator = ollama.get_ollama_response(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\litellm\llms\ollama\completion\handler.py", line 124, in get_ollama_response
+    response = requests.post(
+               ^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\Desktop\Bachelor\Mein_Projekt\.venv\Lib\site-packages\urllib3\connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1411, in getresponse
+    response.begin()
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 324, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 285, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Marc\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 707, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
