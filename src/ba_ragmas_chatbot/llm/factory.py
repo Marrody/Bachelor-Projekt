@@ -34,7 +34,10 @@ def get_llm_for_agent(agent_name: str, temperature: float = 0.7):
     elif agent_name == "writer":
         return ChatOllama(model=model_name, base_url=base_url, temperature=0.7)
 
-    elif agent_name == "proofreader":
+    elif agent_name == "fact_checker":
         return ChatOllama(model=model_name, base_url=base_url, temperature=0.0)
+
+    elif agent_name == "polisher":
+        return ChatOllama(model=model_name, base_url=base_url, temperature=0.5)
 
     return ChatOllama(model=model_name, base_url=base_url, temperature=temperature)

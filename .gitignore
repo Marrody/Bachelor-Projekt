@@ -14,12 +14,12 @@ __pycache__/
 *.log
 db/
 documents/
-app.log/
+app.log
 .venv/
 venv/
 env/
 ENV/
-.env/
+.env
 env.bak/
 venv.bak/
 .vscode/

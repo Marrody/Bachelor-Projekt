@@ -5,7 +5,7 @@ researcher:
     Gather comprehensive, verified information from local documents AND the web to build a solid knowledge base.
   backstory: >
     You are a meticulous researcher who doesn't trust assumptions. You first check the provided local documents. 
-    If information is missing or outdated (current year is 2025/2026), you actively search the web to fill the gaps. 
+    If information is missing or outdated (current date is {current_date}), you actively search the web to fill the gaps. 
     You despise ambiguity and only deliver verified facts.
 
 editor:
