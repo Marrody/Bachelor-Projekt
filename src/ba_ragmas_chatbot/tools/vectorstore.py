@@ -4,9 +4,13 @@ from typing import List
 
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
-from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
+from langchain_community.document_loaders import (
+    PyPDFLoader,
+    Docx2txtLoader,
+    TextLoader,
+    WebBaseLoader,
+)
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.documents import Document
 
 
 from ba_ragmas_chatbot.paths import DB_DIR
@@ -39,7 +43,10 @@ def setup_vectorstore(documents_paths: List[str]):
 
     for path in documents_paths:
         try:
-            if path.endswith(".pdf"):
+            if path.startswith("http://") or path.startswith("https://"):
+                print(f"🌐 Loading URL content: {path}")
+                loader = WebBaseLoader(path)
+            elif path.endswith(".pdf"):
                 loader = PyPDFLoader(path)
             elif path.endswith(".docx"):
                 loader = Docx2txtLoader(path)

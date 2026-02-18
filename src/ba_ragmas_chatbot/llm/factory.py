@@ -26,20 +26,30 @@ def get_llm_for_agent(agent_name: str, temperature: float = 0.7):
 
     if agent_name == "researcher":
         return ChatOllama(
-            model="llama3.1:8b", base_url=base_url, temperature=0.0, keep_alive="5m"
+            model="llama3.1:8b", base_url=base_url, temperature=0.1, keep_alive=0
         )
 
     elif agent_name == "editor":
-        return ChatOllama(model="mistral:7b", base_url=base_url, temperature=0.3)
+        return ChatOllama(
+            model="llama3.1:8b", base_url=base_url, temperature=0.6, keep_alive=0
+        )
 
     elif agent_name == "writer":
-        return ChatOllama(model="gemma2:9b", base_url=base_url, temperature=0.7)
+        return ChatOllama(
+            model="llama3.1:8b", base_url=base_url, temperature=0.7, keep_alive=0
+        )
 
     elif agent_name == "fact_checker":
-        return ChatOllama(model="phi3.5", base_url=base_url, temperature=0.0)
+        return ChatOllama(
+            model="llama3.1:8b", base_url=base_url, temperature=0.0, keep_alive=0
+        )
 
     elif agent_name == "polisher":
-        return ChatOllama(model="qwen2.5:7b", base_url=base_url, temperature=0.4)
+        return ChatOllama(
+            model="llama3.1:8b", base_url=base_url, temperature=0.5, keep_alive=0
+        )
 
     print(f"Using default model '{default_model}' for agent '{agent_name}'")
-    return ChatOllama(model=default_model, base_url=base_url, temperature=temperature)
+    return ChatOllama(
+        model=default_model, base_url=base_url, temperature=temperature, keep_alive=0
+    )

@@ -1,0 +1,23 @@
+Ziel: Testet die Halluzinations-Unterdrückung. Das Dokument enthält absurde Regeln. Der Bot muss diese als "Wahrheit" akzeptieren und darf nicht sein "Weltwissen" nutzen (z.B. dass Pflanzen gut für die Luft sind).
+
+    Szenario: Eine interne Firmenrichtlinie, die keinen Sinn ergibt, aber strikt befolgt werden muss.
+
+    RAG-Konstellation: Nur Dokument
+
+    Dokument: policy.txt
+   
+    Input-Parameter:
+
+        Topic/Task: "Zusammenfassung der neuen Pflanzenregeln für neue Mitarbeiter"
+
+        Length: Medium
+
+        Level: Beginner 
+
+        Info-Level: Medium
+
+        Language: english
+
+        Tone: Casual 
+
+    
