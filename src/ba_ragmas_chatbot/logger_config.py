@@ -1,5 +1,5 @@
 import logging
-import sys  # <--- NEU
+import sys
 
 logging.basicConfig(
     level=logging.INFO,
@@ -9,6 +9,12 @@ logging.basicConfig(
         logging.StreamHandler(sys.stdout),
     ],
 )
+
+
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
+logging.getLogger("telegram").setLevel(logging.WARNING)
+logging.getLogger("chromadb").setLevel(logging.WARNING)
 
 
 def get_logger(name):

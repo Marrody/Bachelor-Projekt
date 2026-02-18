@@ -13,81 +13,72 @@ logger = logger_config.get_logger("GraphNodes")
 def research_node(state: AgentState):
     """
     Fetches context from vector store AND/OR Web Search.
-    Distinguishes clearly between Local Docs (High Trust) and Web (Low Trust).
     """
-    topic = state["topic"]
-    logger.info(f"🕵️ RESEARCHER started for topic: {topic}")
+    logger.info(f"RESEARCHER started for topic: {state['topic']}")
 
     agent_cfg = get_agent_config("researcher")
     task_cfg = get_task_config("research_task")
     current_date = datetime.now().strftime("%d. %B %Y")
     history_list = state.get("history", [])
+    logger.info(f"History-length: {len(history_list)}")
     history_str = (
         "\n".join(history_list) if history_list else "No previous conversation."
     )
-
-    local_context = ""
+    context_text = ""
     retriever = get_retriever(k=4)
-    has_documents = bool(state.get("source_documents"))
 
-    if retriever and has_documents:
-        logger.info("   🔍 Search local documents...")
+    if retriever and state.get("source_documents"):
+        logger.info("🔍 Search local documents...")
         try:
-            docs = retriever.invoke(topic)
+            docs = retriever.invoke(state["topic"])
             if docs:
                 logger.info(f"   ✅ {len(docs)} Document-Chunks found.")
-                local_context = "\n".join([f"- {d.page_content}" for d in docs])
+                context_text += "=== LOCAL DOCUMENTS (HIGH TRUST) ===\n"
+                context_text += "\n\n".join([d.page_content for d in docs])
+                context_text += "\n====================================\n"
             else:
-                logger.info("   ❌ Found no relevant documents.")
+                logger.info("❌ Found no relevant documents.")
         except Exception as e:
             logger.error(f"⚠️ Retrieval failed: {e}")
 
-    web_context = ""
-    logger.info(f"🌍 Search web for: {topic}")
+    logger.info(f"🌍 Search web for: {state['topic']}")
     try:
-        web_results = perform_web_search(topic, max_results=3)
+        web_results = perform_web_search(state["topic"], max_results=3)
         if web_results:
             logger.info(f"✅ {len(web_results)} Web-results found.")
-            web_context = "\n".join(
+            context_text += "\n=== WEB SEARCH RESULTS (CHECK DATE) ===\n"
+            context_text += "\n".join(
                 [
                     f"Title: {r['title']}\nContent: {r['body']}\nSource: {r['href']}"
                     for r in web_results
                 ]
             )
+            context_text += "\n=======================================\n"
     except Exception as e:
         logger.error(f"⚠️ Web search failed: {e}")
 
-    final_context = ""
+    if not context_text:
+        context_text = "NO DATA FOUND via RAG or Web. Use internal knowledge strictly."
 
-    if local_context:
-        final_context += f"=== 📂 LOCAL DOCUMENTS (PRIMARY SOURCE - HIGH TRUST) ===\n{local_context}\n\n"
-
-    if web_context:
-        final_context += f"=== 🌐 WEB SEARCH RESULTS (SECONDARY SOURCE - VERIFY FACTS) ===\n{web_context}\n\n"
-
-    if not final_context:
-        final_context = (
-            "NO EXTERNAL DATA FOUND. Rely on internal knowledge but admit uncertainty."
-        )
-
-    system_prompt = agent_cfg["role"].format(topic=topic, language=state["language"])
-    system_prompt += f"\n\nCurrent Date: {current_date}"
-    system_prompt += f"\n\nBackstory: {agent_cfg['backstory'].format(topic=topic, current_date=current_date)}"
-
-    user_prompt = task_cfg["description"].format(
-        topic=topic, history=history_str, current_date=current_date
+    system_prompt = agent_cfg["role"].format(
+        topic=state["topic"], language=state["language"]
     )
-    user_prompt += f"\n\n### AVAILABLE KNOWLEDGE ###\n{final_context}"
-    user_prompt += "\n\nINSTRUCTION: Distinguish clearly between facts from Local Documents and Web Search in your briefing."
-    user_prompt += f"\n\nEXPECTED OUTPUT:\n{task_cfg['expected_output'].format(topic=topic, language=state['language'])}"
+    system_prompt += f"\n\nCurrent Date: {current_date}"
+    system_prompt += f"\n\nBackstory: {agent_cfg['backstory'].format(topic=state['topic'], current_date=current_date)}"
+    user_prompt = task_cfg["description"].format(
+        topic=state["topic"], history=history_str, current_date=current_date
+    )
+    user_prompt += f"\n\n### RESEARCH MATERIAL ###\n{context_text}"
+    user_prompt += f"\n\nEXPECTED OUTPUT:\n{task_cfg['expected_output'].format(topic=state['topic'], language=state['language'])}"
 
     llm = get_llm_for_agent("researcher")
-    logger.info("🤖 Researcher is thinking...")
+
+    logger.info("🤖 RESEARCHER started.")
     response = llm.invoke(
         [SystemMessage(content=system_prompt), HumanMessage(content=user_prompt)]
     )
 
-    logger.info(f"📝 RESEARCHER OUTPUT:\n{response.content[:500]}...\n(truncated)")
+    logger.info(f"📝 RESEARCHER OUTPUT:\n{response.content[:500]}...\n(gekürzt)")
 
     return {
         "research_data": [response.content],
@@ -126,9 +117,7 @@ def editor_node(state: AgentState):
     response = llm.invoke(
         [SystemMessage(content=system_prompt), HumanMessage(content=user_prompt)]
     )
-
     logger.info(f"📝 EDITOR OUTLINE:\n{response.content}")
-
     return {"outline": [response.content], "current_status": "Outline created."}
 
 
@@ -163,19 +152,16 @@ def writer_node(state: AgentState):
         [SystemMessage(content=system_prompt), HumanMessage(content=user_prompt)]
     )
 
-    logger.info(f"📝 WRITER DRAFT (first 200 chars): {response.content[:200]}...")
-
+    logger.info(f"📝 WRITER DRAFT (first 200 characters): {response.content[:200]}...")
     return {"draft": response.content, "current_status": "Draft written."}
 
 
 def fact_check_node(state: AgentState):
-    logger.info("⚖️ FACT CHECKER started.")
-
+    logger.info("⚖️ FACT_CHECKER started.")
     agent_cfg = get_agent_config("fact_checker")
     task_cfg = get_task_config("fact_check_task")
     draft_text = state.get("draft", "")
     research_summary = "\n".join(state.get("research_data", []))
-
     system_prompt = agent_cfg["role"].format(
         topic=state["topic"], language=state["language"]
     )
@@ -183,10 +169,6 @@ def fact_check_node(state: AgentState):
     user_prompt += f"\n\n--- RESEARCH BRIEFING (TRUE FACTS) ---\n{research_summary}"
     user_prompt += f"\n\n--- DRAFT TO CHECK ---\n{draft_text}"
     user_prompt += f"\n\nEXPECTED OUTPUT:\n{task_cfg['expected_output']}"
-    user_prompt += (
-        "\nIMPORTANT: Output ONLY the corrected text. Do NOT explain your changes."
-    )
-
     llm = get_llm_for_agent("fact_checker")
     response = llm.invoke(
         [SystemMessage(content=system_prompt), HumanMessage(content=user_prompt)]
@@ -202,7 +184,6 @@ def polisher_node(state: AgentState):
     agent_cfg = get_agent_config("polisher")
     task_cfg = get_task_config("polishing_task")
     draft_text = state.get("draft", "")
-
     system_prompt = agent_cfg["role"].format(
         topic=state["topic"], language=state["language"], tone=state["tone"]
     )
@@ -211,9 +192,6 @@ def polisher_node(state: AgentState):
     )
     user_prompt += f"\n\n--- TEXT TO POLISH ---\n{draft_text}"
     user_prompt += f"\n\nEXPECTED OUTPUT:\n{task_cfg['expected_output']}"
-    user_prompt += (
-        "\nIMPORTANT: Output ONLY the final article. No intro/outro conversation."
-    )
     llm = get_llm_for_agent("polisher")
     response = llm.invoke(
         [SystemMessage(content=system_prompt), HumanMessage(content=user_prompt)]

@@ -1,14 +1,10 @@
-Fall 2: Der "Compliance-Check" (Nur Dokument)
-
 Ziel: Testet die Halluzinations-Unterdrückung. Das Dokument enthält absurde Regeln. Der Bot muss diese als "Wahrheit" akzeptieren und darf nicht sein "Weltwissen" nutzen (z.B. dass Pflanzen gut für die Luft sind).
 
     Szenario: Eine interne Firmenrichtlinie, die keinen Sinn ergibt, aber strikt befolgt werden muss.
 
     RAG-Konstellation: Nur Dokument
 
-    Dokument: Erstelle eine Datei policy.txt mit folgendem Inhalt:
-    Plaintext
-
+    Dokument: policy.txt
    
     Input-Parameter:
 
@@ -20,10 +16,8 @@ Ziel: Testet die Halluzinations-Unterdrückung. Das Dokument enthält absurde Re
 
         Info-Level: Medium
 
+        Language: english
+
         Tone: Casual 
 
-    Worauf du achten musst:
-
-        Behauptet der Bot, Laubpflanzen seien verboten, weil sie Sauerstoff verbrauchen? (Richtig im Sinne des RAG, falsch in der Biologie -> Das ist das Ziel!)
-
-        Erwähnt er die Strafe mit dem Bürostuhl?
+    

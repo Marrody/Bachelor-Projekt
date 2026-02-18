@@ -18,12 +18,8 @@ Ziel: Der Bot muss Constraints aus dem Dokument mit Optionen aus dem Web abgleic
 
         Info-Level: Medium
 
+        Language: deutsch
+
         Tone: Friendly
 
-    Worauf du achten musst:
-
-        Filter-Logik: Empfiehlt er "Curry 61" oder "Mustafa's"? (Passt zu Budget & Schärfe).
-
-        Negativ-Filter: Empfiehlt er "Burgermeister" oder "Shiso Burger"? (Fehler! Familie Müller hasst Burger).
-
-        Budget-Check: Hält er die 7€ Grenze ein (die Webseite nennt Preise)?
+    

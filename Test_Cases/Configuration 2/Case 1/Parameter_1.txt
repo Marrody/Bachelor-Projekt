@@ -11,9 +11,11 @@ Ziel: Testet die DuckDuckGo-Integration (search_tool.py) und wie gut der Researc
 
         Level: Advanced 
 
-        Info-Level: High 
+        Info-Level: High
+
+        Language: deutsch  
 
         Tone: Professional
+ 
 
-    Worauf achten: Halluziniert das Modell Fakten, die nicht im Artikel stehen? Wird die Quelle im Text genannt?
-
+Process-Time: 10:50
