@@ -1,0 +1,10 @@
+Ziel: Testet den Researcher und Editor bei der Zusammenführung einer starken lokalen Meinung mit externem Web-Kontext zu einem runden Leitartikel. Szenario: Ein Meinungsartikel über einen aktuellen Trend, der auf einer internen Firmen-Philosophie aufbaut. 
+RAG-Konstellation: Dokument + Web-Suche
+Dokument: firmen_philosophie.txt 
+•	Input-Parameter:
+o	Topic/Task: "Warum das Büro nicht tot ist: Die Zukunft der hybriden Arbeit"
+o	Length: Long 
+o	Level: Intermediate 
+o	Info-Level: High 
+o	Language: English
+o	Tone: Professional 

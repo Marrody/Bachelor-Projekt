@@ -1,7 +1,7 @@
 import os
 import shutil
 from typing import List
-
+from ba_ragmas_chatbot.graph.utils import get_model_config
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.document_loaders import (
@@ -21,9 +21,10 @@ DB_DIR_STR = str(DB_DIR)
 
 def get_embedding_function():
     """defines embedding-model!"""
+    config = get_model_config()
     return OllamaEmbeddings(
-        model="mxbai-embed-large",
-        base_url="http://localhost:11434",
+        model=config.get("embedding_model", "mxbai-embed-large"),
+        base_url=config.get("base_url", "http://localhost:11434"),
     )
 
 

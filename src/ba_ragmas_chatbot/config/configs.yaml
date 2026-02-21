@@ -1,16 +1,9 @@
 chatbot_token:
   token: PLACEHOLDER
 
-agents:
-  llm: ollama/llama3.1:8b-instruct-q8_0
-  url: http://localhost:11434
-
-chatbot:
-  llm:
-    name: llama3.1:8b-instruct-q8_0
-    provider_name: ollama
-    url: http://localhost:11434
-  embedding_model:
-    name: mxbai-embed-large
-    provider_name: ollama
-    url: http://localhost:11434
+models:
+  base_url: "http://localhost:11434"
+  logic_model: "qwen2.5:7b-instruct-q5_k_m"
+  creative_model: "gemma2:9b-instruct-q5_k_m"
+  free_chat_model: "llama3.1:8b-instruct-q8_0"
+  embedding_model: "mxbai-embed-large"

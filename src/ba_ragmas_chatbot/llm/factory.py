@@ -1,40 +1,41 @@
 from langchain_ollama import ChatOllama
-
-LOGIC_MODEL = "qwen2.5:7b-instruct-q5_k_m"
-CREATIVE_MODEL = "gemma2:9b-instruct-q5_k_m"
-BASE_URL = "http://localhost:11434"
+from ba_ragmas_chatbot.graph.utils import get_model_config
 
 
 def get_llm_for_agent(agent_name: str, temperature: float = 0.7):
     """
     Returns the specialized LLM instance for a specific agent.
     """
+    config = get_model_config()
+    base_url = config.get("base_url", "http://localhost:11434")
+    logic_model = config.get("logic_model", "qwen2.5:7b-instruct-q5_k_m")
+    creative_model = config.get("creative_model", "gemma2:9b-instruct-q5_k_m")
 
     if agent_name == "researcher":
         return ChatOllama(
-            model=LOGIC_MODEL, base_url=BASE_URL, temperature=0.0, keep_alive=0
+            model=logic_model, base_url=base_url, temperature=0.0, keep_alive=0
         )
 
     elif agent_name == "editor":
         return ChatOllama(
-            model=LOGIC_MODEL, base_url=BASE_URL, temperature=0.2, keep_alive=0
+            model=logic_model, base_url=base_url, temperature=0.2, keep_alive=0
         )
 
     elif agent_name == "writer":
         return ChatOllama(
-            model=CREATIVE_MODEL, base_url=BASE_URL, temperature=0.7, keep_alive=0
+            model=creative_model, base_url=base_url, temperature=0.7, keep_alive=0
         )
 
     elif agent_name == "fact_checker":
         return ChatOllama(
-            model=LOGIC_MODEL, base_url=BASE_URL, temperature=0.0, keep_alive=0
+            model=logic_model, base_url=base_url, temperature=0.0, keep_alive=0
         )
 
     elif agent_name == "polisher":
         return ChatOllama(
-            model=CREATIVE_MODEL, base_url=BASE_URL, temperature=0.6, keep_alive=0
+            model=creative_model, base_url=base_url, temperature=0.6, keep_alive=0
         )
 
     return ChatOllama(
-        model=LOGIC_MODEL, base_url=BASE_URL, temperature=temperature, keep_alive=0
+        model=logic_model, base_url=base_url, temperature=temperature, keep_alive=0
     )

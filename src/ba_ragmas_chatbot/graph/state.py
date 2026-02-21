@@ -8,7 +8,8 @@ class AgentState(TypedDict):
 
     topic: str
     target_len: str
-    target_audience: str
+    language_level: str
+    information_level: str
     language: str
     tone: str
     additional_info: str

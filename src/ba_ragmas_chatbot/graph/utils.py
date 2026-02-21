@@ -17,7 +17,7 @@ def load_yaml_config(filename: str) -> Dict[str, Any]:
         with open(config_path, "r", encoding="utf-8") as f:
             return yaml.safe_load(f)
     except Exception as e:
-        raise Exception(f"Fehler beim Parsen von {filename}: {e}")
+        raise Exception(f"Error parsing {filename}: {e}")
 
 
 def get_agent_config(agent_name: str) -> Dict[str, Any]:
@@ -26,3 +26,7 @@ def get_agent_config(agent_name: str) -> Dict[str, Any]:
 
 def get_task_config(task_name: str) -> Dict[str, Any]:
     return load_yaml_config("tasks.yaml")[task_name]
+
+
+def get_model_config() -> Dict[str, Any]:
+    return load_yaml_config("configs.yaml").get("models", {})

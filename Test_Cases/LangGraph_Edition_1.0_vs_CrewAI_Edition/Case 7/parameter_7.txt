@@ -1,0 +1,11 @@
+Ziel: Testet die erzählerischen Fähigkeiten des Writers und den stilistischen Feinschliff des Polishers. Szenario: Ein unterhaltsamer Pop-Science-Blogpost über eine historische Kuriosität. 
+
+RAG-Konstellation: Nur Dokument
+•Dokument: mikrowelle_erfindung.txt
+•Input-Parameter:
+o	Topic/Task: "Der geschmolzene Schokoriegel: Die verrückte Geschichte, wie die Mikrowelle erfunden wurde"
+o	Length: Medium 
+o	Level: Everyone / Intermediate 
+o	Info-Level: Medium 
+o	Language: German
+o	Tone: Casual 

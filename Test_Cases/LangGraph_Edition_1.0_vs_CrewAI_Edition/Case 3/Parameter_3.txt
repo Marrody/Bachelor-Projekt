@@ -1,0 +1,25 @@
+Ziel: Der Bot muss Constraints aus dem Dokument mit Optionen aus dem Web abgleichen.
+
+    Szenario: Ein Reiseplan für Berlin. Das Dokument definiert das Budget und den Geschmack, die Webseite liefert die Orte.
+
+    RAG-Konstellation: URL + Dokument
+
+    URL: https://budgettraveller.org/best-cheap-eats-guide-to-berlin/ 
+
+    Dokument: profil_mueller.txt
+
+    Input-Parameter:
+
+        Topic/Task: "Kulinarischer Berlin-Guide für Familie Müller"
+
+        Length: Long
+
+        Level: Intermediate
+
+        Info-Level: Medium
+
+        Language: deutsch
+
+        Tone: Friendly
+
+    

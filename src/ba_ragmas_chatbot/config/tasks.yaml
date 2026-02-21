@@ -5,64 +5,63 @@ research_task:
     3. IF the documents are insufficient or the topic requires current data, use the Web Search Tool.
     4. Compile everything into a structured "Research Briefing".
     5. IMPORTANT: Identify the source of every fact (Local Document vs. Web Search).
-    Context: {history}
+
   expected_output: >
     A structured briefing containing ONLY:
     - Key Facts & Figures (with source indication)
     - Context/Background info
     - Relevant Quotes
     - Sources list
-    DO NOT add any conversational filler like "Here is the briefing".
+    DO NOT add any conversational filler.
   agent: researcher
 
 editor_task:
   description: >
-    Create a detailed outline based strictly on the "Research Briefing".
+    Create a highly engaging blog post outline based STRICTLY on the "Research Briefing".
     Requirements:
     - Length: {length}
-    - Level: {language_level}
-    - Target Audience: {target_audience}
+    - Language Level: {language_level}
+    - Information Level: {information_level}
     - Tone: {tone}
+
+    CRITICAL RULES:
+    1. Start with a captivating "Hook" (an interesting fact or story) to draw the reader in.
+    2. DO NOT use internal meta-headers like "Key Facts", "Context", or "Sources" in your outline. Invent natural, engaging blog headers!
   expected_output: >
-    A structural plan (Markdown) where each section includes:
-    - Section Headline
-    - Core Bullet points to cover
-    - Style instructions for the writer
-    Output ONLY the outline. No intro, no outro.
+    A structural plan (Markdown) where each section includes the Headline and Core Bullet points. Output ONLY the outline.
   agent: editor
 
 writer_task:
   description: >
     Write the full blog post based on the Editor's Outline and the Researcher's Briefing.
-    Do NOT use outside knowledge. Stick to the briefing.
+    CRITICAL RULES FOR HALLUCINATIONS:
+    - Do NOT invent, hallucinate, or guess any names, dates, or direct quotes. 
+    - If a quote is not verbatim in the Research Briefing, describe it indirectly.
+
+    ADAPTATION: Explain the topic so it perfectly matches the Target Audience ({language_level}). If the audience is "Beginner", use simple everyday analogies and avoid technical jargon.
     Language: {language}
   expected_output: >
-    A raw draft of the blog post (Markdown).
-    Output ONLY the article text. Do NOT write "Here is the draft" or "I wrote this based on...".
+    The full draft of the blog post (Markdown). Output ONLY the article text.
   agent: writer
 
 fact_check_task:
   description: >
-    Read the Draft and compare it with the Research Briefing.
-    Check for:
-    1. Hallucinations (claims not in research)
-    2. Logical errors
-    If you find errors, SILENTLY correct the text based on the Briefing.
-    Do NOT list the errors you found.
+    Read the Draft and compare it meticulously with the Research Briefing.
+    Your job is to act as a strict quality gate.
+
+    STEP 1: Verify every number, name, and quote in the draft. Are they explicitly in the Briefing? 
+    STEP 2: Evaluate. If you find ANY hallucinations (facts/quotes/names not in the briefing) or logical errors, list them clearly as feedback for the writer.
+    STEP 3: If the draft is completely factually correct based ONLY on the briefing, output exactly the word "PASS".
   expected_output: >
-    The corrected draft text (Markdown).
-    Output ONLY the final text. NO "Changes made" section. NO "I corrected the following...".
+    Either the word "PASS" (if everything is correct) OR a bulleted list of errors and instructions on what the writer needs to fix.
   agent: fact_checker
 
 polishing_task:
   description: >
     Polish the text for the final publication.
-    - Improve flow and readability.
-    - Apply the requested Tone ({tone}).
-    - Ensure perfect Markdown (Headers, Lists, Bold text).
+    - Improve flow and readability. Apply the Tone ({tone}).
+    - IMPORTANT: Remove ALL placeholders, brackets like [Insert Quote here], and meta-comments.
     - Check grammar for language: {language}.
-    - IMPORTANT: Remove any remaining meta-comments or internal notes from previous agents.
   expected_output: >
-    The final, polished blog post ready for publishing.
-    Output ONLY the final content. NO conversational filler.
+    The final, polished blog post. Output ONLY the final content.
   agent: polisher

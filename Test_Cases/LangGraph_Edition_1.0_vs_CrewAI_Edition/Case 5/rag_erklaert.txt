@@ -1,0 +1,7 @@
+Funktionsweise von Retrieval-Augmented Generation (RAG) auf Vektorebene
+
+Retrieval-Augmented Generation (RAG) ist ein architektonischer Ansatz, der die parametrischen Gedächtniskapazitäten von Large Language Models (LLMs) mit nicht-parametrischen, externen Wissensdatenbanken verknüpft. Der Prozess gliedert sich primär in eine Ingestion-Phase und eine Retrieval-Phase.
+
+Während der Ingestion-Phase werden unstrukturierte Textdokumente in kleinere, diskrete Chunks (z.B. 500 Tokens mit 50 Tokens Overlap) unterteilt. Ein Embedding-Modell (z.B. mxbai-embed-large) transformiert diese Text-Chunks in hochdimensionale Vektoren (typischerweise 768 oder 1536 Dimensionen), welche die semantische Bedeutung des Textes numerisch repräsentieren. Diese Vektoren werden in einer spezialisierten Vektordatenbank (wie ChromaDB oder Pinecone) persistiert.
+
+In der Retrieval-Phase wird die natürliche Sprachabfrage des Benutzers durch dasselbe Embedding-Modell in einen Vektor transformiert. Die Vektordatenbank führt daraufhin eine Ähnlichkeitssuche durch, meist basierend auf der Kosinus-Ähnlichkeit (Cosine Similarity) oder dem Euklidischen Abstand, um die k-nächsten Nachbarn (k-NN) im Vektorraum zu identifizieren. Die Text-Chunks, die diesen Nearest-Neighbor-Vektoren entsprechen, werden extrahiert und als Hard-Context an den System-Prompt des LLMs angehängt. Dadurch wird das Modell gezwungen, seine probabilistische Token-Generierung auf den abgerufenen Vektor-Kontext zu konditionieren, was die Halluzinationsrate signifikant minimiert.

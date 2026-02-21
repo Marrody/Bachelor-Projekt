@@ -52,11 +52,9 @@ class TelegramBot:
             raise ValueError(
                 "❌ no telegram token found! please set in .env or configs.yaml."
             )
-        chatbot_cfg = self.config.get("chatbot", {})
-        llm_cfg = chatbot_cfg.get("llm", {})
-        embed_cfg = chatbot_cfg.get("embedding_model", {})
-        self.llm_name = llm_cfg.get("name", "llama3.1:8b-instruct-q8_0")
-        self.llm_url = llm_cfg.get("url", "http://localhost:11434")
+        model_cfg = self.config.get("models", {})
+        self.llm_name = model_cfg.get("chat_model", "llama3.1:8b-instruct-q8_0")
+        self.llm_url = model_cfg.get("base_url", "http://localhost:11434")
         self.ai = OllamaLLM(model=self.llm_name, base_url=self.llm_url)
         self.tools = []
 
@@ -1063,7 +1061,8 @@ class TelegramBot:
             graph_inputs = {
                 "topic": inputs.get("topic"),
                 "target_len": inputs.get("length"),
-                "target_audience": inputs.get("language_level"),
+                "language_level": inputs.get("language_level"),
+                "information_level": inputs.get("information_level"),
                 "language": inputs.get("language"),
                 "tone": inputs.get("tone"),
                 "additional_info": inputs.get("additional_information"),
@@ -1109,9 +1108,24 @@ class TelegramBot:
 
                     elif node_name == "fact_checker":
                         status_text += "✅ ⚖️ Fact Checker finished.\n"
-                        await status_msg.edit_text(
-                            status_text + "⏳ ✨ Polisher is formatting the text..."
-                        )
+                        critique = state_update.get("critique", "").strip().upper()
+                        rev_count = state_update.get("revision_count", 0)
+
+                        if (
+                            critique == "PASS"
+                            or critique.startswith("PASS")
+                            or critique == ""
+                            or rev_count >= 2
+                        ):
+                            await status_msg.edit_text(
+                                status_text
+                                + "⏳ ✨ Polisher is formatting the final text..."
+                            )
+                        else:
+                            await status_msg.edit_text(
+                                status_text
+                                + f"⚠️ ✍️ Fact Checker found errors! Writer is rewriting (Revision {rev_count})..."
+                            )
 
                     elif node_name == "polisher":
                         status_text += "✅ ✨ Polisher finished.\n"
@@ -1163,7 +1177,8 @@ class TelegramBot:
                 graph_inputs = {
                     "topic": inputs.get("topic"),
                     "target_len": inputs.get("length"),
-                    "target_audience": inputs.get("language_level"),
+                    "language_level": inputs.get("language_level"),
+                    "information_level": inputs.get("information_level"),
                     "language": inputs.get("language"),
                     "tone": inputs.get("tone"),
                     "additional_info": inputs.get("additional_information"),
@@ -1208,9 +1223,24 @@ class TelegramBot:
 
                         elif node_name == "fact_checker":
                             status_text += "✅ ⚖️ Fact Checker finished.\n"
-                            await status_msg.edit_text(
-                                status_text + "⏳ ✨ Polisher is formatting the text..."
-                            )
+                            critique = state_update.get("critique", "").strip().upper()
+                            rev_count = state_update.get("revision_count", 0)
+
+                            if (
+                                critique == "PASS"
+                                or critique.startswith("PASS")
+                                or critique == ""
+                                or rev_count >= 2
+                            ):
+                                await status_msg.edit_text(
+                                    status_text
+                                    + "⏳ ✨ Polisher is formatting the final text..."
+                                )
+                            else:
+                                await status_msg.edit_text(
+                                    status_text
+                                    + f"⚠️ ✍️ Fact Checker found errors! Writer is rewriting (Revision {rev_count})..."
+                                )
 
                         elif node_name == "polisher":
                             status_text += "✅ ✨ Polisher finished.\n"

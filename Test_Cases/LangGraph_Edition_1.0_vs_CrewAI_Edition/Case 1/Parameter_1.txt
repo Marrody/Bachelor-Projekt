@@ -1,0 +1,21 @@
+Ziel: Testet die DuckDuckGo-Integration (search_tool.py) und wie gut der Researcher aktuelle Informationen extrahiert, die das LLM  aufgrund seines Training-Cutoffs vielleicht nicht kennt.
+
+
+    Input-Parameter:
+
+        Topic: "Funktionsweise und Sicherheitsmechanismen von OpenAI Sora"
+
+        URL: https://openai.com/index/sora/.
+
+        Length: Short 
+
+        Level: Advanced 
+
+        Info-Level: High
+
+        Language: deutsch  
+
+        Tone: Professional
+ 
+
+Process-Time: 10:50

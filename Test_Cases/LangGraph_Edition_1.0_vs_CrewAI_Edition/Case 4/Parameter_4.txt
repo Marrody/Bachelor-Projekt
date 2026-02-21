@@ -1,0 +1,25 @@
+Ziel: Baseline-Messung. Wie gut ist das Modell "nackt"? Testet Struktur (Editor) und Sprachfluss (Writer) ohne Ablenkung durch Fakten-Check.
+
+    Szenario: Ein philosophischer Blogpost.
+
+    RAG-Konstellation: Nichts
+
+    Input-Parameter:
+
+        Topic/Task: "Warum Langeweile der Schlüssel zur Kreativität ist"
+
+        Length: Medium
+
+        Level: Intermediate
+
+        Info-Level: Low (Fokus auf Meinung/Narrativ, weniger harte Daten)
+
+        Language: deutsch
+
+        Tone: Professional
+
+    Worauf du achten musst:
+
+        Struktur: Gibt es eine klare Einleitung und ein Fazit?
+
+        Sprache: Klingt es natürlich deutsch oder "übersetzt"? (Llama 3.1 ist auf Englisch trainiert, Deutsch ist manchmal hölzern).

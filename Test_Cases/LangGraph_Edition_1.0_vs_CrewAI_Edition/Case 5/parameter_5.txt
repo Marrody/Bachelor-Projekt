@@ -1,0 +1,9 @@
+Ziel: Testet die Fähigkeit des Writers, trockene, komplexe Fakten in eine verdauliche Sprache zu übersetzen, ohne dass der Fact Checker wegen "Verfälschung" Alarm schlägt. Szenario: Ein Unternehmensblog, der Laien eine neue Technologie erklärt. RAG-Konstellation: Nur Dokument
+Dokument: rag_erklaert.txt 
+•Input-Parameter:
+o	Topic/Task: "Wie KI-Chatbots mit RAG schlauer werden (ohne Fachchinesisch erklärt)"
+o	Length: Medium
+o	Level: Beginner 
+o	Info-Level: Medium 
+o	Language: German
+o	Tone: Friendly 
